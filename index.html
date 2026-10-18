@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ポケモン セーブデータ修復の受付</title>
+<meta name="description" content="壊れてしまったポケモン X・Y / オメガルビー・アルファサファイアのセーブデータの修復を受け付けています。">
+<meta property="og:title" content="ポケモンの壊れたセーブデータ、修復します">
+<meta property="og:description" content="X・Y / ORAS の「レポートがこわれています」になったセーブデータを送ってください。修復できたらダウンロードできます。">
+<meta property="og:image" content="https://noctis1008-wq.github.io/repair-request/img/logo.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="style.css?v=1">
+<style>
+.rq-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+.rq-tab{border:2px solid #d0d5dd;background:#f8fafc;border-radius:12px;padding:12px;font:inherit;font-weight:800;color:#475467;cursor:pointer}
+.rq-tab.active{border-color:#2e90fa;background:#fff;color:#17202a;box-shadow:0 0 0 3px rgba(46,144,250,.15)}
+.rq-panel{display:none}.rq-panel.active{display:block}
+.rq-field{margin-bottom:14px}
+.rq-field label{display:block;font-weight:800;font-size:14px;margin-bottom:6px}
+.rq-field small{display:block;color:#667085;font-size:12px;margin-top:4px;line-height:1.5}
+.rq-field input[type=text],.rq-field input[type=password],.rq-field textarea{width:100%;box-sizing:border-box;border:1px solid #d0d5dd;border-radius:10px;padding:11px 12px;font:inherit;font-size:16px;background:#fff}
+.rq-field textarea{min-height:96px;resize:vertical}
+.rq-file{display:flex;align-items:center;gap:10px;border:2px dashed #98a2b3;border-radius:12px;padding:14px;cursor:pointer;background:#f9fafb}
+.rq-file input{display:none}
+.rq-file .rq-file-name{color:#475467;font-size:14px;word-break:break-all}
+.rq-consent{display:flex;gap:8px;align-items:flex-start;font-size:13px;line-height:1.6;color:#344054;margin:6px 0 4px}
+.rq-consent input{width:18px;height:18px;flex:none;margin-top:2px}
+.rq-msg{margin-top:14px;padding:12px 14px;border-radius:12px;line-height:1.6;font-size:14px}
+.rq-msg.err{background:#fef3f2;color:#b42318}
+.rq-msg.info{background:#f2f4f7;color:#344054}
+.rq-result{margin-top:16px;padding:16px;border-radius:14px;border:1px solid #eaecf0;background:#f8fafc;line-height:1.7}
+.rq-result.done{background:linear-gradient(135deg,#ecfdf3,#d1fadf);border-color:#32d583;color:#05603a}
+.rq-result.failed{background:#fef3f2;border-color:#fda29b;color:#7a271a}
+.rq-result h3{margin:0 0 6px;font-size:18px}
+.rq-id{font-family:ui-monospace,monospace;font-size:20px;font-weight:800;letter-spacing:.06em}
+.rq-steps{margin:8px 0 0;padding-left:20px;font-size:13.5px;color:#344054}
+.rq-steps li{margin:4px 0}
+.rq-banner{margin-bottom:14px;padding:10px 12px;border-radius:10px;background:#fffaeb;border:1px solid #fedf89;color:#93370d;font-size:13px}
+</style>
+</head>
+<body>
+<div class="social-fixed">
+<a class="social-icon youtube-icon" href="https://www.youtube.com/@%E3%83%8D%E3%83%AB2048" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube"><span class="youtube-play" aria-hidden="true"></span></a>
+<a class="social-icon x-icon" href="https://x.com/ner2048" target="_blank" rel="noopener noreferrer" aria-label="X" title="X"><span aria-hidden="true">𝕏</span></a>
+</div>
+<main class="wrap">
+<section class="hero">
+<p class="eyebrow">POKÉMON SAVE RECOVERY</p>
+<h1 class="hero-logo"><picture><source srcset="img/logo.webp?v=1" type="image/webp"><img src="img/logo.png?v=1" width="1300" height="437" alt="セーブデータ修復" decoding="async"></picture></h1>
+<p class="lead">「レポートがこわれています」と出て遊べなくなった、<b>ポケモン X・Y / オメガルビー・アルファサファイア</b>のセーブデータの修復を受け付けています。セーブデータを送っていただければ、修復できたものをこのページからダウンロードできます。</p>
+</section>
+
+<section class="card">
+<div id="rqBanner" class="rq-banner" hidden>(準備中)受付の送り先がまだ設定されていません。</div>
+<div class="rq-tabs" role="tablist">
+<button type="button" class="rq-tab active" data-tab="send" role="tab">修復を依頼する</button>
+<button type="button" class="rq-tab" data-tab="check" role="tab">結果を確認する</button>
+</div>
+
+<div class="rq-panel active" data-panel="send">
+<form id="sendForm" autocomplete="off">
+<div class="rq-field"><label for="sName">ユーザー名</label><input type="text" id="sName" maxlength="30" required placeholder="例: ネル"><small>結果を確認するときに使います。ほかの人と同じ名前は使えません。</small></div>
+<div class="rq-field"><label for="sPass">ダウンロードパスワード</label><input type="password" id="sPass" minlength="4" maxlength="64" required autocomplete="new-password"><small>4 文字以上。修復したデータをダウンロードするときに使います。忘れないようにメモしてください。</small></div>
+<div class="rq-field"><label for="sPass2">パスワード(確認)</label><input type="password" id="sPass2" minlength="4" maxlength="64" required autocomplete="new-password"></div>
+<div class="rq-field"><label>セーブデータ(main)</label><label class="rq-file" for="sFile"><input type="file" id="sFile"><span class="small-button">ファイルを選ぶ</span><span class="rq-file-name" id="sFileName">選ばれていません</span></label><small>Checkpoint や JKSM で取り出した <code>main</code> を選んでください(X・Y と ORAS のみ)。</small></div>
+<div class="rq-field"><label for="sComment">備考・コメント(任意)</label><textarea id="sComment" maxlength="1000" placeholder="例: レポートを書いている途中で電源が切れました。手持ちのリザードンだけでも戻ってきてほしいです。"></textarea></div>
+<label class="rq-consent"><input type="checkbox" id="sAgree" required><span>送ったセーブデータを、修復と、修復ツールの改善のためのサンプルとして保存・利用することに同意します(第三者に渡すことはありません。<a href="privacy.html" target="_blank">プライバシーポリシー</a>)。</span></label>
+<button type="submit" class="button" id="sButton">修復を依頼する</button>
+</form>
+<div id="sMsg"></div>
+</div>
+
+<div class="rq-panel" data-panel="check">
+<form id="checkForm" autocomplete="off">
+<div class="rq-field"><label for="cName">ユーザー名</label><input type="text" id="cName" maxlength="30" required></div>
+<div class="rq-field"><label for="cPass">ダウンロードパスワード</label><input type="password" id="cPass" maxlength="64" required autocomplete="current-password"></div>
+<button type="submit" class="button" id="cButton">結果を確認する</button>
+</form>
+<div id="cMsg"></div>
+</div>
+</section>
+
+<section class="info">
+<h2>よくある質問</h2>
+<ul>
+<li><b>どのくらいで修復できますか？</b> 管理者が手作業で修復するため、数日かかることがあります。「結果を確認する」でときどき確かめてください。</li>
+<li><b>必ず直りますか？</b> 壊れ方によっては直せないこともあります。そのときは「修復できませんでした」と表示されます。</li>
+<li><b>送ったデータはどうなりますか？</b> 修復と、修復ツールの改善だけに使います。ほかの人に渡したり、ポケモンを取ったりすることはありません。</li>
+</ul>
+</section>
+<footer><a href="privacy.html">プライバシーポリシー</a></footer>
+</main>
+<script>
+// 送り先(管理者の Google Apps Script。受け取り側は repair_receiver.gs)。動作確認のときは ?api=... で差し替えられる
+const REPAIR_URL=new URLSearchParams(location.search).get('api')||'';
+const SIZES={415232:'X・Y',483328:'オメガルビー・アルファサファイア'};
+const $=id=>document.getElementById(id);
+if(!REPAIR_URL)$('rqBanner').hidden=false;
+document.querySelectorAll('.rq-tab').forEach(t=>t.addEventListener('click',()=>showTab(t.dataset.tab)));
+function showTab(name){document.querySelectorAll('.rq-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===name));document.querySelectorAll('.rq-panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===name))}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function showMsg(el,html,kind){el.innerHTML=html?`<div class="rq-msg ${kind||'info'}">${html}</div>`:''}
+async function api(body){
+  if(!REPAIR_URL)throw new Error('受付の送り先がまだ設定されていません。');
+  const res=await fetch(REPAIR_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});
+  return res.json();
+}
+function toBase64(u8){let s='';for(let i=0;i<u8.length;i+=0x8000)s+=String.fromCharCode.apply(null,u8.subarray(i,i+0x8000));return btoa(s)}
+function fromBase64(b64){const s=atob(b64),u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u}
+$('sFile').addEventListener('change',()=>{const f=$('sFile').files[0];$('sFileName').textContent=f?`${f.name}(${f.size.toLocaleString()} バイト${SIZES[f.size]?'・'+SIZES[f.size]:''})`:'選ばれていません'});
+
+$('sendForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const name=$('sName').value.trim(),pass=$('sPass').value,file=$('sFile').files[0];
+  if(pass!==$('sPass2').value)return showMsg($('sMsg'),'パスワード(確認)が一致しません。','err');
+  if(!file)return showMsg($('sMsg'),'セーブデータを選んでください。','err');
+  if(!SIZES[file.size])return showMsg($('sMsg'),`このファイルは X・Y または ORAS の main ではないようです(${file.size.toLocaleString()} バイト)。Checkpoint などで取り出した <code>main</code> を選んでください。`,'err');
+  const btn=$('sButton');btn.disabled=true;btn.textContent='送信中…';showMsg($('sMsg'),'');
+  try{
+    const data=toBase64(new Uint8Array(await file.arrayBuffer()));
+    const r=await api({action:'submit',name,password:pass,comment:$('sComment').value,fileName:file.name,data,version:'repair-site-1'});
+    if(!r.ok)return showMsg($('sMsg'),esc(r.error||'受け付けできませんでした。'),'err');
+    $('sendForm').hidden=true;
+    $('sMsg').innerHTML=`<div class="rq-result"><h3>受け付けました</h3>
+      <p>受付番号: <span class="rq-id">${esc(r.id)}</span></p>
+      <p>修復が終わったら、このページの「結果を確認する」で、ユーザー名「<b>${esc(name)}</b>」とダウンロードパスワードを入れるとダウンロードできます。</p>
+      <p style="font-size:13px;color:#667085">ユーザー名とパスワードは、スクリーンショットなどで控えておいてください。</p></div>`;
+    $('cName').value=name;
+  }catch(err){showMsg($('sMsg'),'送信できませんでした。通信状態を確かめて、もう一度お試しください。'+(err&&err.message&&!REPAIR_URL?'('+esc(err.message)+')':''),'err')}
+  finally{btn.disabled=false;btn.textContent='修復を依頼する'}
+});
+
+$('checkForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const name=$('cName').value.trim(),pass=$('cPass').value,btn=$('cButton');
+  btn.disabled=true;btn.textContent='確認中…';showMsg($('cMsg'),'');
+  try{
+    const r=await api({action:'status',name,password:pass});
+    if(!r.ok)return showMsg($('cMsg'),esc(r.error||'確認できませんでした。'),'err');
+    const when=r.created?`${r.created.slice(0,4)}/${r.created.slice(4,6)}/${r.created.slice(6,8)} ${r.created.slice(9,11)}:${r.created.slice(11,13)}`:'';
+    const note=r.note?`<p>📝 ${esc(r.note)}</p>`:'';
+    if(r.status==='done'){
+      $('cMsg').innerHTML=`<div class="rq-result done"><h3>🎉 修復完了！</h3><p>修復したセーブデータをダウンロードできます。</p>${note}
+        <button type="button" class="button" id="dlButton">ダウンロードする</button>
+        <ol class="rq-steps"><li>ダウンロードしたファイルの名前を <code>main</code>(拡張子なし)にします。</li><li>Checkpoint で今のセーブをバックアップし、そのフォルダの <code>main</code> を置き換えて Restore します。</li><li>エミュレータの場合は、セーブデータの場所にある <code>main</code> と置き換えます。</li></ol></div>`;
+      $('dlButton').addEventListener('click',()=>download(name,pass));
+    }else if(r.status==='failed'){
+      $('cMsg').innerHTML=`<div class="rq-result failed"><h3>修復できませんでした</h3>${r.message?`<p>${esc(r.message)}</p>`:''}${note}<p>ご協力ありがとうございました。送っていただいたデータは、今後の修復ツールの改善に役立てます。</p></div>`;
+    }else{
+      $('cMsg').innerHTML=`<div class="rq-result"><h3>修復中です</h3><p>受付番号: <span class="rq-id">${esc(r.id||'')}</span>${when?`(${esc(when)} 受付)`:''}</p>${note}<p>修復が終わるまで、もうしばらくお待ちください。</p></div>`;
+    }
+  }catch(err){showMsg($('cMsg'),'確認できませんでした。通信状態を確かめて、もう一度お試しください。','err')}
+  finally{btn.disabled=false;btn.textContent='結果を確認する'}
+});
+
+async function download(name,pass){
+  const btn=$('dlButton');btn.disabled=true;btn.textContent='ダウンロード中…';
+  try{
+    const r=await api({action:'download',name,password:pass});
+    if(!r.ok||!r.data)throw new Error(r.error||'');
+    const url=URL.createObjectURL(new Blob([fromBase64(r.data)],{type:'application/octet-stream'}));
+    const a=document.createElement('a');a.href=url;a.download=r.fileName||'main';document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),10000);
+  }catch(err){const p=document.createElement('p');p.style.color='#b42318';p.textContent='ダウンロードできませんでした。もう一度お試しください。';btn.after(p)}
+  finally{btn.disabled=false;btn.textContent='ダウンロードする'}
+}
+</script>
+</body>
+</html>
