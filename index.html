@@ -91,7 +91,7 @@
 </main>
 <script>
 // 送り先(管理者の Google Apps Script。受け取り側は repair_receiver.gs)。動作確認のときは ?api=... で差し替えられる
-const REPAIR_URL=new URLSearchParams(location.search).get('api')||'';
+const REPAIR_URL=new URLSearchParams(location.search).get('api')||'https://script.google.com/macros/s/AKfycbxyWW7ZkpI4j4LFpXBJiaz12e8AXJ1-Tiw7et2USBrIWjcIDPG1sakdeyQJwoPAtauKEA/exec';
 const SIZES={415232:'X・Y',483328:'オメガルビー・アルファサファイア'};
 const $=id=>document.getElementById(id);
 if(!REPAIR_URL)$('rqBanner').hidden=false;
