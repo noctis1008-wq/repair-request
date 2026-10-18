@@ -34,6 +34,18 @@
 .rq-id{font-family:ui-monospace,monospace;font-size:20px;font-weight:800;letter-spacing:.06em}
 .rq-steps{margin:8px 0 0;padding-left:20px;font-size:13.5px;color:#344054}
 .rq-steps li{margin:4px 0}
+.rq-list{margin:0 0 18px;border:1px solid #eaecf0;border-radius:12px;overflow:hidden}
+.rq-list h3{margin:0;padding:10px 12px;font-size:14px;background:#f8fafc;border-bottom:1px solid #eaecf0;display:flex;justify-content:space-between;align-items:center}
+.rq-list h3 button{border:0;background:none;color:#2e90fa;font:inherit;font-size:12.5px;cursor:pointer}
+.rq-list ul{list-style:none;margin:0;padding:0;max-height:320px;overflow-y:auto}
+.rq-list li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid #f2f4f7;font-size:14px;cursor:pointer}
+.rq-list li:last-child{border-bottom:0}
+.rq-list li:hover{background:#f9fafb}
+.rq-list .rq-name{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rq-list .rq-date{color:#98a2b3;font-size:12px;margin-left:6px;font-weight:400}
+.rq-badge{flex:none;font-size:12px;font-weight:800;border-radius:999px;padding:3px 10px}
+.rq-badge.waiting{background:#f2f4f7;color:#475467}.rq-badge.done{background:#d1fadf;color:#05603a}.rq-badge.failed{background:#fee4e2;color:#b42318}
+.rq-list .rq-empty{color:#667085;cursor:default;justify-content:center}
 .rq-banner{margin-bottom:14px;padding:10px 12px;border-radius:10px;background:#fffaeb;border:1px solid #fedf89;color:#93370d;font-size:13px}
 </style>
 </head>
@@ -70,6 +82,7 @@
 </div>
 
 <div class="rq-panel" data-panel="check">
+<div class="rq-list"><h3>受付一覧<button type="button" id="listReload">更新</button></h3><ul id="reqList"><li class="rq-empty">読み込み中…</li></ul></div>
 <form id="checkForm" autocomplete="off">
 <div class="rq-field"><label for="cName">ユーザー名</label><input type="text" id="cName" maxlength="30" required></div>
 <div class="rq-field"><label for="cPass">ダウンロードパスワード</label><input type="password" id="cPass" maxlength="64" required autocomplete="current-password"></div>
@@ -96,7 +109,20 @@ const SIZES={415232:'X・Y',483328:'オメガルビー・アルファサファ�
 const $=id=>document.getElementById(id);
 if(!REPAIR_URL)$('rqBanner').hidden=false;
 document.querySelectorAll('.rq-tab').forEach(t=>t.addEventListener('click',()=>showTab(t.dataset.tab)));
-function showTab(name){document.querySelectorAll('.rq-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===name));document.querySelectorAll('.rq-panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===name))}
+const STATUS_LABEL={waiting:'修復中',done:'修復完了',failed:'修復できませんでした'};
+let listLoaded=false;
+async function loadList(){
+  const ul=$('reqList');
+  try{
+    const r=await api({action:'list'});
+    if(!r.ok)throw 0;
+    listLoaded=true;
+    ul.innerHTML=r.items.length?r.items.map(it=>`<li data-name="${esc(it.name)}"><span class="rq-name">${esc(it.name)}<span class="rq-date">${it.created?esc(it.created.slice(4,6)+'/'+it.created.slice(6,8)):''}</span></span><span class="rq-badge ${esc(it.status)}">${STATUS_LABEL[it.status]||''}</span></li>`).join(''):'<li class="rq-empty">まだ依頼はありません</li>';
+    ul.querySelectorAll('li[data-name]').forEach(li=>li.addEventListener('click',()=>{$('cName').value=li.dataset.name;$('cPass').focus()}));
+  }catch(e){ul.innerHTML='<li class="rq-empty">一覧を読み込めませんでした</li>'}
+}
+$('listReload').addEventListener('click',loadList);
+function showTab(name){if(name==='check'&&!listLoaded)loadList();document.querySelectorAll('.rq-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===name));document.querySelectorAll('.rq-panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===name))}
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function showMsg(el,html,kind){el.innerHTML=html?`<div class="rq-msg ${kind||'info'}">${html}</div>`:''}
 async function api(body){
@@ -124,7 +150,7 @@ $('sendForm').addEventListener('submit',async e=>{
       <p>受付番号: <span class="rq-id">${esc(r.id)}</span></p>
       <p>修復が終わったら、このページの「結果を確認する」で、ユーザー名「<b>${esc(name)}</b>」とダウンロードパスワードを入れるとダウンロードできます。</p>
       <p style="font-size:13px;color:#667085">ユーザー名とパスワードは、スクリーンショットなどで控えておいてください。</p></div>`;
-    $('cName').value=name;
+    $('cName').value=name;listLoaded=false;
   }catch(err){showMsg($('sMsg'),'送信できませんでした。通信状態を確かめて、もう一度お試しください。'+(err&&err.message&&!REPAIR_URL?'('+esc(err.message)+')':''),'err')}
   finally{btn.disabled=false;btn.textContent='修復を依頼する'}
 });

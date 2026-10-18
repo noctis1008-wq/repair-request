@@ -27,6 +27,7 @@ function doPost(e) {
     if (req.action === 'submit') return json(submit(req));
     if (req.action === 'status') return json(status(req, false));
     if (req.action === 'download') return json(status(req, true));
+    if (req.action === 'list') return json(list());
     return json({ ok: false, error: '不明な操作です。' });
   } catch (err) {
     return json({ ok: false, error: 'サーバーでエラーが起きました。時間をおいて、もう一度お試しください。' });
@@ -67,6 +68,7 @@ function submit(req) {
     folder.createFile('request.json', JSON.stringify(info, null, 2), 'application/json');
     props.setProperty(key, folder.getId());
     props.setProperty(hourKey, String(count + 1));
+    CacheService.getScriptCache().remove('list');
 
     if (NOTIFY_EMAIL) {
       try {
@@ -116,6 +118,26 @@ function status(req, withFile) {
   } else {
     res.status = 'waiting';
   }
+  return res;
+}
+
+// 結果確認画面に出す一覧(ユーザー名・受付日時・進捗だけ。パスワードやコメントは出さない)
+function list() {
+  const cache = CacheService.getScriptCache();
+  const hit = cache.get('list');
+  if (hit) return JSON.parse(hit);
+  const items = [];
+  const it = getRoot().getFolders();
+  while (it.hasNext()) {
+    const folder = it.next();
+    const info = JSON.parse(readText(folder, 'request.json') || '{}');
+    if (!info.name) continue;
+    const st = findFile(folder, 'main') ? 'done' : (readText(folder, '修復不可.txt') !== null ? 'failed' : 'waiting');
+    items.push({ name: info.name, created: info.created || '', status: st });
+  }
+  items.sort((a, b) => (a.created < b.created ? 1 : -1));
+  const res = { ok: true, items };
+  cache.put('list', JSON.stringify(res), 60);   // 1 分間は同じ結果を返す(ドライブを何度も読まないため)
   return res;
 }
 
