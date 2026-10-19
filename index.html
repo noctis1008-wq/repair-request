@@ -58,6 +58,12 @@
 .rq-help-body ol{margin:4px 0 0;padding-left:20px}
 .rq-help-body li{margin:3px 0}
 .rq-help-body .rq-help-note{margin:12px 0 0;padding:10px 12px;border-radius:10px;background:#fffaeb;color:#93370d;font-size:13px}
+.rq-video{display:flex;align-items:center;gap:12px;margin:10px 0 0;padding:8px;border:1px solid #e4e7ec;border-radius:12px;text-decoration:none;color:#17202a;background:#f8fafc}
+.rq-video-thumb{position:relative;width:132px;aspect-ratio:16/9;border-radius:8px;flex:none;overflow:hidden;background:#111 url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Crect x=%271.5%27 y=%274.5%27 width=%2721%27 height=%2715%27 rx=%274.5%27 fill=%27%23ff0033%27/%3E%3Cpath d=%27M10 8.8v6.4l5.6-3.2z%27 fill=%27%23fff%27/%3E%3C/svg%3E") center/38px no-repeat}
+.rq-video-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rq-video span{display:flex;flex-direction:column;gap:3px;font-size:14px}
+.rq-video small{color:#d92d20;font-weight:800;font-size:12.5px}
+.rq-help-small{margin:6px 0 0;font-size:12px;color:#667085}
 </style>
 </head>
 <body>
@@ -73,8 +79,15 @@
 <details class="rq-help">
 <summary>どうやって 3DS からセーブデータを持ってきたらいいの？</summary>
 <div class="rq-help-body">
-<p style="margin:0">送っていただくのは、ゲームのセーブデータのファイル <code>main</code> です。取り出し方は、遊んでいる環境によって違います。</p>
-<h4>3DS 本体で遊んでいる場合(Checkpoint)</h4>
+<p style="margin:0">送っていただくのは、ゲームのセーブデータのファイル <code>main</code> です。</p>
+<h4>① まず CFW(カスタムファームウェア)を入れる</h4>
+<p style="margin:2px 0 0">3DS 本体の機能だけでは、セーブデータをファイルとして取り出すことはできません。取り出すには、3DS に <b>CFW(カスタムファームウェア)</b> を入れて、セーブデータを取り出すアプリ(Checkpoint)を使えるようにする必要があります。</p>
+<p style="margin:6px 0 0">CFW の入れ方は、こちらの動画で解説しています。<b>パソコン・iPhone・Android のどれか 1 台</b>があればできます。</p>
+<a class="rq-video" href="https://youtu.be/Sb5POknNqTw" target="_blank" rel="noopener noreferrer">
+<span class="rq-video-thumb"><img src="https://i.ytimg.com/vi/Sb5POknNqTw/mqdefault.jpg" width="320" height="180" alt="" loading="lazy" onerror="this.remove()"></span>
+<span><b>CFW の導入方法(解説動画)</b><small>YouTube で見る ↗</small></span></a>
+<p class="rq-help-small">CFW の導入はご自身の責任で行ってください。手順をとばさず、動画のとおりに進めてください。</p>
+<h4>② Checkpoint でセーブデータを取り出す</h4>
 <ol>
 <li>3DS で <b>Checkpoint</b> を起動し、ポケモン X・Y / ORAS を選びます。</li>
 <li>「Backup」(バックアップ)を押して、セーブデータを保存します。</li>
@@ -82,13 +95,13 @@
 <li><code>3ds/Checkpoint/saves/</code> の中にあるゲーム名のフォルダを開き、保存した日時のフォルダの中の <code>main</code> を、このページで選びます。</li>
 </ol>
 <p style="margin:6px 0 0">JKSM を使っている場合も同じように「バックアップ」して、<code>JKSM/Saves/</code> の中の <code>main</code> を選んでください。SD カードを抜かずに、ftpd などで Wi-Fi 経由でスマホやパソコンに移すこともできます。</p>
-<h4>エミュレータで遊んでいる場合</h4>
+<h4>エミュレータで遊んでいる場合(CFW は不要)</h4>
 <ol>
 <li>ゲームの一覧でポケモンを右クリック(スマホ版は長押し)します。</li>
 <li>「セーブデータの場所を開く」を選びます。</li>
 <li>開いたフォルダの中の <code>main</code> を選びます。</li>
 </ol>
-<p class="rq-help-note">Checkpoint や JKSM は、3DS 本体を改造(カスタムファームウェアを導入)していないと使えません。改造していない 3DS では、セーブデータを取り出す方法がありません。また、「レポートがこわれています」と出たあとに新しく始めてレポートを書くと、壊れたデータが消えてしまいます。取り出すまでは、ゲームでレポートを書かないでください。</p>
+<p class="rq-help-note">「レポートがこわれています」と出たあとに新しく始めてレポートを書くと、壊れたデータが消えてしまいます。取り出すまでは、ゲームでレポートを書かないでください。</p>
 </div>
 </details>
 </section>
