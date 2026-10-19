@@ -47,6 +47,17 @@
 .rq-badge.waiting{background:#f2f4f7;color:#475467}.rq-badge.done{background:#d1fadf;color:#05603a}.rq-badge.failed{background:#fee4e2;color:#b42318}
 .rq-list .rq-empty{color:#667085;cursor:default;justify-content:center}
 .rq-banner{margin-bottom:14px;padding:10px 12px;border-radius:10px;background:#fffaeb;border:1px solid #fedf89;color:#93370d;font-size:13px}
+.rq-help{max-width:650px;margin:16px auto 0;text-align:left;background:#fff;border:1px solid #e4e7ec;border-radius:14px;box-shadow:0 6px 18px rgba(16,24,40,.05)}
+.rq-help summary{cursor:pointer;list-style:none;padding:13px 16px;font-weight:800;font-size:14.5px;display:flex;align-items:center;gap:8px}
+.rq-help summary::-webkit-details-marker{display:none}
+.rq-help summary::before{content:"?";flex:none;width:22px;height:22px;border-radius:50%;background:#111827;color:#fff;display:grid;place-items:center;font-size:13px}
+.rq-help summary::after{content:"▼";margin-left:auto;font-size:11px;color:#98a2b3;transition:transform .2s}
+.rq-help[open] summary::after{transform:rotate(180deg)}
+.rq-help-body{padding:0 16px 14px;font-size:13.5px;line-height:1.7;color:#344054}
+.rq-help-body h4{margin:12px 0 2px;font-size:14px;color:#17202a}
+.rq-help-body ol{margin:4px 0 0;padding-left:20px}
+.rq-help-body li{margin:3px 0}
+.rq-help-body .rq-help-note{margin:12px 0 0;padding:10px 12px;border-radius:10px;background:#fffaeb;color:#93370d;font-size:13px}
 </style>
 </head>
 <body>
@@ -59,6 +70,27 @@
 <p class="eyebrow">POKÉMON SAVE RECOVERY</p>
 <h1 class="hero-logo"><picture><source srcset="img/logo.webp?v=1" type="image/webp"><img src="img/logo.png?v=1" width="1300" height="437" alt="セーブデータ修復" decoding="async"></picture></h1>
 <p class="lead">「レポートがこわれています」と出て遊べなくなった、<b>ポケモン X・Y / オメガルビー・アルファサファイア</b>のセーブデータの修復を受け付けています。セーブデータを送っていただければ、修復できたものをこのページからダウンロードできます。</p>
+<details class="rq-help">
+<summary>どうやって 3DS からセーブデータを持ってきたらいいの？</summary>
+<div class="rq-help-body">
+<p style="margin:0">送っていただくのは、ゲームのセーブデータのファイル <code>main</code> です。取り出し方は、遊んでいる環境によって違います。</p>
+<h4>3DS 本体で遊んでいる場合(Checkpoint)</h4>
+<ol>
+<li>3DS で <b>Checkpoint</b> を起動し、ポケモン X・Y / ORAS を選びます。</li>
+<li>「Backup」(バックアップ)を押して、セーブデータを保存します。</li>
+<li>3DS の電源を切って SD カードを抜き、パソコンやスマホで開きます。</li>
+<li><code>3ds/Checkpoint/saves/</code> の中にあるゲーム名のフォルダを開き、保存した日時のフォルダの中の <code>main</code> を、このページで選びます。</li>
+</ol>
+<p style="margin:6px 0 0">JKSM を使っている場合も同じように「バックアップ」して、<code>JKSM/Saves/</code> の中の <code>main</code> を選んでください。SD カードを抜かずに、ftpd などで Wi-Fi 経由でスマホやパソコンに移すこともできます。</p>
+<h4>エミュレータで遊んでいる場合</h4>
+<ol>
+<li>ゲームの一覧でポケモンを右クリック(スマホ版は長押し)します。</li>
+<li>「セーブデータの場所を開く」を選びます。</li>
+<li>開いたフォルダの中の <code>main</code> を選びます。</li>
+</ol>
+<p class="rq-help-note">Checkpoint や JKSM は、3DS 本体を改造(カスタムファームウェアを導入)していないと使えません。改造していない 3DS では、セーブデータを取り出す方法がありません。また、「レポートがこわれています」と出たあとに新しく始めてレポートを書くと、壊れたデータが消えてしまいます。取り出すまでは、ゲームでレポートを書かないでください。</p>
+</div>
+</details>
 </section>
 
 <section class="card">
