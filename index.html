@@ -64,6 +64,9 @@
 .rq-video span{display:flex;flex-direction:column;gap:3px;font-size:14px}
 .rq-video small{color:#d92d20;font-weight:800;font-size:12.5px}
 .rq-help-small{margin:6px 0 0;font-size:12px;color:#667085}
+.rq-no{font-size:11px;color:#98a2b3;font-weight:700;margin-right:3px}
+#reqList li{cursor:default}
+#reqList li:hover{background:none}
 </style>
 </head>
 <body>
@@ -162,8 +165,8 @@ async function loadList(){
     const r=await api({action:'list'});
     if(!r.ok)throw 0;
     listLoaded=true;
-    ul.innerHTML=r.items.length?r.items.map(it=>`<li data-name="${esc(it.name)}"><span class="rq-name">${esc(it.name)}<span class="rq-date">${it.created?esc(it.created.slice(4,6)+'/'+it.created.slice(6,8)):''}</span></span><span class="rq-badge ${esc(it.status)}">${STATUS_LABEL[it.status]||''}</span></li>`).join(''):'<li class="rq-empty">まだ依頼はありません</li>';
-    ul.querySelectorAll('li[data-name]').forEach(li=>li.addEventListener('click',()=>{$('cName').value=li.dataset.name;$('cPass').focus()}));
+    // 一覧には受付番号を出す(ユーザー名は出さない)。古い受付処理(名前を返す版)のあいだは名前を出す
+    ul.innerHTML=r.items.length?r.items.map(it=>`<li><span class="rq-name">${it.id?'<span class="rq-no">No.</span>'+esc(it.id):esc(it.name||'')}<span class="rq-date">${it.created?esc(it.created.slice(4,6)+'/'+it.created.slice(6,8)):''}</span></span><span class="rq-badge ${esc(it.status)}">${STATUS_LABEL[it.status]||''}</span></li>`).join(''):'<li class="rq-empty">まだ依頼はありません</li>';
   }catch(e){ul.innerHTML='<li class="rq-empty">一覧を読み込めませんでした</li>'}
 }
 $('listReload').addEventListener('click',loadList);
@@ -194,7 +197,7 @@ $('sendForm').addEventListener('submit',async e=>{
     $('sMsg').innerHTML=`<div class="rq-result"><h3>受け付けました</h3>
       <p>受付番号: <span class="rq-id">${esc(r.id)}</span></p>
       <p>修復が終わったら、このページの「結果を確認する」で、ユーザー名「<b>${esc(name)}</b>」とダウンロードパスワードを入れるとダウンロードできます。</p>
-      <p style="font-size:13px;color:#667085">ユーザー名とパスワードは、スクリーンショットなどで控えておいてください。</p></div>`;
+      <p style="font-size:13px;color:#667085">受付番号・ユーザー名・パスワードは、スクリーンショットなどで控えておいてください。「結果を確認する」の受付一覧では、受付番号で自分の依頼の進み具合がわかります。</p></div>`;
     $('cName').value=name;listLoaded=false;
   }catch(err){showMsg($('sMsg'),'送信できませんでした。通信状態を確かめて、もう一度お試しください。'+(err&&err.message&&!REPAIR_URL?'('+esc(err.message)+')':''),'err')}
   finally{btn.disabled=false;btn.textContent='修復を依頼する'}

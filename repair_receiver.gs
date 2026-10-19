@@ -133,7 +133,7 @@ function list() {
     const info = JSON.parse(readText(folder, 'request.json') || '{}');
     if (!info.name) continue;
     const st = findFile(folder, 'main') ? 'done' : (readText(folder, '修復不可.txt') !== null ? 'failed' : 'waiting');
-    items.push({ name: info.name, created: info.created || '', status: st });
+    items.push({ id: info.id || '', created: info.created || '', status: st });   // 一覧には受付番号だけを出す(ユーザー名は出さない)
   }
   items.sort((a, b) => (a.created < b.created ? 1 : -1));
   const res = { ok: true, items };
