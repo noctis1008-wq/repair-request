@@ -7,6 +7,7 @@
  * 管理者(あなた)の作業:
  *   1. ドライブの「NER 修復依頼」に依頼ごとのフォルダができます(名前: 受付日時_ユーザー名)。
  *      中に 破損セーブ(broken_…)と依頼内容(request.json。パスワードはハッシュ化済み)があります。
+ *      NER Pokémon Recovery の「修復をリクエストする」から来た依頼には、ツールで救出したデータ(recovery_…)も入ります。
  *   2. 修復できたら、そのフォルダに修復後のセーブを「main」という名前でアップロードします。
  *      → 依頼者が結果を確認すると「修復完了」と表示され、パスワードを入れるとダウンロードできます。
  *   3. 修復できなかったときは、そのフォルダに「修復不可.txt」を作り、依頼者へのひとことを書きます。
@@ -48,6 +49,9 @@ function submit(req) {
   const bytes = Utilities.base64Decode(req.data || '');
   const game = ALLOWED_SIZES[bytes.length];
   if (!game) return { ok: false, error: 'X・Y または オメガルビー・アルファサファイアの main(セーブデータ)を選んでください。' };
+  // NER Pokémon Recovery で救出したデータ(任意)。名前を「main」にすると修復完了と見なされるので、recovery_ を付けて保存する
+  const bytes2 = req.data2 ? Utilities.base64Decode(req.data2) : null;
+  if (bytes2 && bytes2.length > 0x200000) return { ok: false, error: '救出したデータが大きすぎます。' };
 
   const props = PropertiesService.getScriptProperties();
   const lock = LockService.getScriptLock();
@@ -63,8 +67,9 @@ function submit(req) {
     const id = stamp.slice(2, 8) + '-' + Math.random().toString(36).slice(2, 6).toUpperCase();
     const folder = getRoot().createFolder(stamp + '_' + name.replace(/[\\/:*?"<>|]/g, '_'));
     folder.createFile(Utilities.newBlob(bytes, 'application/octet-stream', 'broken_' + game + '_' + String(req.fileName || 'main').replace(/[\\/:*?"<>|]/g, '_').slice(0, 60)));
+    if (bytes2 && bytes2.length) folder.createFile(Utilities.newBlob(bytes2, 'application/octet-stream', 'recovery_' + String(req.fileName2 || 'main').replace(/[\\/:*?"<>|]/g, '_').slice(0, 60)));
     const salt = Utilities.getUuid();
-    const info = { id, name, game, comment, created: stamp, salt, hash: hashPass(pass, salt), toolVersion: String(req.version || '') };
+    const info = { id, name, game, comment, created: stamp, salt, hash: hashPass(pass, salt), toolVersion: String(req.version || ''), withRecovery: !!(bytes2 && bytes2.length) };
     folder.createFile('request.json', JSON.stringify(info, null, 2), 'application/json');
     props.setProperty(key, folder.getId());
     props.setProperty(hourKey, String(count + 1));
@@ -73,7 +78,7 @@ function submit(req) {
     if (NOTIFY_EMAIL) {
       try {
         MailApp.sendEmail(Session.getEffectiveUser().getEmail(), '【NER】修復依頼が届きました: ' + name,
-          'ユーザー名: ' + name + '\n受付番号: ' + id + '\nゲーム: ' + game + '\n備考:\n' + comment + '\n\nフォルダ: ' + folder.getUrl());
+          'ユーザー名: ' + name + '\n受付番号: ' + id + '\nゲーム: ' + game + (bytes2 && bytes2.length ? '\n救出したデータ: あり(NER Pokémon Recovery から)' : '') + '\n備考:\n' + comment + '\n\nフォルダ: ' + folder.getUrl());
       } catch (e) { /* メールが送れなくても受付は続ける */ }
     }
     return { ok: true, id };

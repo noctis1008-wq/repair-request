@@ -64,6 +64,7 @@
 .rq-video span{display:flex;flex-direction:column;gap:3px;font-size:14px}
 .rq-video small{color:#d92d20;font-weight:800;font-size:12.5px}
 .rq-help-small{margin:6px 0 0;font-size:12px;color:#667085}
+.rq-handoff{margin-bottom:14px;padding:12px 14px;border-radius:12px;background:#ecfdf3;border:1px solid #abefc6;color:#05603a;font-size:13.5px;line-height:1.6}
 .rq-no{font-size:11px;color:#98a2b3;font-weight:700;margin-right:3px}
 #reqList li{cursor:default}
 #reqList li:hover{background:none}
@@ -110,6 +111,7 @@
 </section>
 
 <section class="card">
+<div id="rqHandoff" class="rq-handoff" hidden>NER Pokémon Recovery から、<b>壊れたセーブデータ</b>と<b>救出したデータ</b>の 2 つを受け取りました。ユーザー名とパスワードを決めて送ってください。</div>
 <div id="rqBanner" class="rq-banner" hidden>(準備中)受付の送り先がまだ設定されていません。</div>
 <div class="rq-tabs" role="tablist">
 <button type="button" class="rq-tab active" data-tab="send" role="tab">修復を依頼する</button>
@@ -122,6 +124,7 @@
 <div class="rq-field"><label for="sPass">ダウンロードパスワード</label><input type="password" id="sPass" minlength="4" maxlength="64" required autocomplete="new-password"><small>4 文字以上。修復したデータをダウンロードするときに使います。忘れないようにメモしてください。</small></div>
 <div class="rq-field"><label for="sPass2">パスワード(確認)</label><input type="password" id="sPass2" minlength="4" maxlength="64" required autocomplete="new-password"></div>
 <div class="rq-field"><label>セーブデータ(main)</label><label class="rq-file" for="sFile"><input type="file" id="sFile"><span class="small-button">ファイルを選ぶ</span><span class="rq-file-name" id="sFileName">選ばれていません</span></label><small>Checkpoint や JKSM で取り出した <code>main</code> を選んでください(X・Y と ORAS のみ)。</small></div>
+<div class="rq-field" id="sFile2Field" hidden><label>救出したデータ</label><label class="rq-file" for="sFile2"><input type="file" id="sFile2"><span class="small-button">ファイルを選ぶ</span><span class="rq-file-name" id="sFile2Name">選ばれていません</span></label><small>NER Pokémon Recovery で作ったデータです。修復の手がかりにします。</small></div>
 <div class="rq-field"><label for="sComment">備考・コメント(任意)</label><textarea id="sComment" maxlength="1000" placeholder="例: レポートを書いている途中で電源が切れました。手持ちのリザードンだけでも戻ってきてほしいです。"></textarea></div>
 <label class="rq-consent"><input type="checkbox" id="sAgree" required><span>送ったセーブデータを、修復と、修復ツールの改善のためのサンプルとして保存・利用することに同意します(第三者に渡すことはありません。<a href="privacy.html" target="_blank">プライバシーポリシー</a>)。</span></label>
 <button type="submit" class="button" id="sButton">修復を依頼する</button>
@@ -180,18 +183,43 @@ async function api(body){
 }
 function toBase64(u8){let s='';for(let i=0;i<u8.length;i+=0x8000)s+=String.fromCharCode.apply(null,u8.subarray(i,i+0x8000));return btoa(s)}
 function fromBase64(b64){const s=atob(b64),u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u}
-$('sFile').addEventListener('change',()=>{const f=$('sFile').files[0];$('sFileName').textContent=f?`${f.name}(${f.size.toLocaleString()} バイト${SIZES[f.size]?'・'+SIZES[f.size]:''})`:'選ばれていません'});
+// 選んだファイル。Recovery から渡されたときは、ここに直接入れる(input の files は使わない)
+let brokenFile=null,rescuedFile=null;
+const fileLabel=f=>f?`${f.name}(${f.size.toLocaleString()} バイト${SIZES[f.size]?'・'+SIZES[f.size]:''})`:'選ばれていません';
+function setBroken(f){brokenFile=f||null;$('sFileName').textContent=fileLabel(brokenFile)}
+function setRescued(f){rescuedFile=f||null;$('sFile2Name').textContent=fileLabel(rescuedFile)}
+$('sFile').addEventListener('change',()=>setBroken($('sFile').files[0]));
+$('sFile2').addEventListener('change',()=>setRescued($('sFile2').files[0]));
+// NER Pokémon Recovery の「修復をリクエストする」から来たとき(?from=recovery)。
+// Recovery が同じサイトの IndexedDB「nerRepairHandoff」に置いた 2 つのファイルを読み込む。送信が終わったら消す。
+function handoffDb(){return new Promise((ok,ng)=>{let r;try{r=indexedDB.open('nerRepairHandoff',1)}catch(e){ng(e);return}r.onupgradeneeded=()=>r.result.createObjectStore('files');r.onerror=()=>ng(r.error);r.onsuccess=()=>ok(r.result)})}
+async function handoffGet(){const db=await handoffDb();return new Promise(ok=>{const q=db.transaction('files').objectStore('files').get('latest');q.onsuccess=()=>{db.close();ok(q.result||null)};q.onerror=()=>{db.close();ok(null)}})}
+async function handoffClear(){try{const db=await handoffDb();const tx=db.transaction('files','readwrite');tx.objectStore('files').delete('latest');tx.oncomplete=()=>db.close()}catch(e){}}
+let fromRecovery=false;
+(async function(){
+  if(!/[?&]from=recovery\b/.test(location.search))return;
+  try{
+    const h=await handoffGet();
+    if(!h||!h.broken||!h.rescued||Date.now()-h.at>86400000)return;   // 1 日以上前のものは使わない
+    setBroken(new File([h.broken.data],h.broken.name));
+    setRescued(new File([h.rescued.data],h.rescued.name));
+    $('sFile2Field').hidden=false;$('rqHandoff').hidden=false;fromRecovery=true;
+    showTab('send');
+  }catch(e){}
+})();
 
 $('sendForm').addEventListener('submit',async e=>{
   e.preventDefault();
-  const name=$('sName').value.trim(),pass=$('sPass').value,file=$('sFile').files[0];
+  const name=$('sName').value.trim(),pass=$('sPass').value,file=brokenFile;
   if(pass!==$('sPass2').value)return showMsg($('sMsg'),'パスワード(確認)が一致しません。','err');
   if(!file)return showMsg($('sMsg'),'セーブデータを選んでください。','err');
   if(!SIZES[file.size])return showMsg($('sMsg'),`このファイルは X・Y または ORAS の main ではないようです(${file.size.toLocaleString()} バイト)。Checkpoint などで取り出した <code>main</code> を選んでください。`,'err');
   const btn=$('sButton');btn.disabled=true;btn.textContent='送信中…';showMsg($('sMsg'),'');
   try{
     const data=toBase64(new Uint8Array(await file.arrayBuffer()));
-    const r=await api({action:'submit',name,password:pass,comment:$('sComment').value,fileName:file.name,data,version:'repair-site-1'});
+    const body={action:'submit',name,password:pass,comment:$('sComment').value,fileName:file.name,data,version:'repair-site-2'};
+    if(rescuedFile){body.fileName2=rescuedFile.name;body.data2=toBase64(new Uint8Array(await rescuedFile.arrayBuffer()))}
+    const r=await api(body);
     if(!r.ok)return showMsg($('sMsg'),esc(r.error||'受け付けできませんでした。'),'err');
     $('sendForm').hidden=true;
     $('sMsg').innerHTML=`<div class="rq-result"><h3>受け付けました</h3>
@@ -199,6 +227,7 @@ $('sendForm').addEventListener('submit',async e=>{
       <p>修復が終わったら、このページの「結果を確認する」で、ユーザー名「<b>${esc(name)}</b>」とダウンロードパスワードを入れるとダウンロードできます。</p>
       <p style="font-size:13px;color:#667085">受付番号・ユーザー名・パスワードは、スクリーンショットなどで控えておいてください。「結果を確認する」の受付一覧では、受付番号で自分の依頼の進み具合がわかります。</p></div>`;
     $('cName').value=name;listLoaded=false;
+    if(fromRecovery){handoffClear();history.replaceState(null,'',location.pathname)}
   }catch(err){showMsg($('sMsg'),'送信できませんでした。通信状態を確かめて、もう一度お試しください。'+(err&&err.message&&!REPAIR_URL?'('+esc(err.message)+')':''),'err')}
   finally{btn.disabled=false;btn.textContent='修復を依頼する'}
 });
