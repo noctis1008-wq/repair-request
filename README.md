@@ -8,3 +8,7 @@ X・Y / オメガルビー・アルファサファイアの壊れたセーブデ
 - NER Pokémon Recovery の「修復をリクエストする」から `?from=recovery` で開かれると、同じサイトの IndexedDB `nerRepairHandoff` から
   壊れたセーブと救出したデータの 2 つを読み込んで添付する。救出したデータはドライブに `recovery_…` として保存される(`main` にすると修復完了扱いになるため)。
   この受け取りには `repair_receiver.gs` の新しい版のデプロイが必要。
+
+- 画面(v3): 上部バー・手順(取り出す → 依頼する → 受け取る)・カードは NER Pokémon Recovery / NER Converter と同じデザイン。
+  スマホは「修復を依頼する / 結果を確認する」の切り替え、パソコン(960px 以上)は左に依頼フォーム・右に結果の確認を並べる。
+  CSS を変えたら `index.html` と `privacy.html` の `style.css?v=` を同じ数字に上げる。

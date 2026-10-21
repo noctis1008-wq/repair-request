@@ -1,442 +1,266 @@
-*{box-sizing:border-box}:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#17202a;background:#f4f6f8}body{margin:0}.wrap{max-width:800px;margin:0 auto;padding:52px 20px 40px}.hero{text-align:center;margin-bottom:28px}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.18em;color:#667085;margin:0 0 10px}.hero h1{font-size:clamp(34px,7vw,58px);line-height:1.02;letter-spacing:-.04em;margin:0}.hero h1 span{font-size:.48em;letter-spacing:.08em}.lead{max-width:650px;margin:18px auto 0;color:#667085;line-height:1.7}.card,.info{background:#fff;border:1px solid #e4e7ec;border-radius:22px;box-shadow:0 12px 36px rgba(16,24,40,.07)}.card{padding:22px}.drop{min-height:260px;border:2px dashed #98a2b3;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;text-align:center;padding:30px;transition:.15s}.drop:hover,.drop.drag{border-color:#344054;background:#f9fafb}.drop input{display:none}.drop-icon{width:68px;height:68px;border-radius:16px;display:grid;place-items:center;background:#111827;color:#fff;font-weight:900;font-size:22px;margin-bottom:14px}.drop-title{font-size:20px;font-weight:800}.drop-sub{margin-top:8px;color:#667085}.status{margin-top:18px;padding:14px 16px;border-radius:12px;background:#f2f4f7;line-height:1.5}.status.error{background:#fef3f2;color:#b42318}.summary{margin-top:18px;border-top:1px solid #eaecf0;padding-top:18px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.summary div{background:#f8fafc;border-radius:12px;padding:13px}.summary span{display:block;color:#667085;font-size:12px}.summary strong{display:block;margin-top:4px}.pokemon-list{margin-top:16px}.pokemon-row{display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:center;padding:11px 13px;border-bottom:1px solid #f2f4f7}.pokemon-row:last-child{border-bottom:0}.pokemon-row .num{font-variant-numeric:tabular-nums;color:#667085}.pokemon-row .species{font-weight:800}.pokemon-row .meta{font-size:12px;color:#667085}.badge{font-size:11px;background:#eef2ff;border-radius:999px;padding:5px 8px}.button{width:100%;margin-top:18px;border:0;border-radius:12px;padding:15px 18px;background:#111827;color:#fff;font-size:16px;font-weight:800;cursor:pointer}.button:hover{background:#000}.info{margin-top:22px;padding:24px 26px}.info h2{font-size:19px;margin:0 0 12px}.info h2:not(:first-child){margin-top:26px}.info li{margin:7px 0;line-height:1.55}.note{color:#667085;font-size:13px;line-height:1.7}footer{text-align:center;padding-top:24px;font-size:13px}footer a{color:#475467}code{background:#f2f4f7;border-radius:5px;padding:2px 5px}.hidden{display:none}@media(max-width:650px){.summary{grid-template-columns:1fr}.pokemon-row{grid-template-columns:48px 1fr auto}}
-.selection-summary{margin-top:12px;font-size:13px;color:#667085;text-align:right}.recovery-controls{margin-top:14px;padding:14px;background:#f8fafc;border:1px solid #eaecf0;border-radius:14px}.selection-title{display:flex;gap:10px;align-items:baseline;justify-content:space-between}.selection-title span{font-size:12px;color:#667085}.selection-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.small-button{border:1px solid #d0d5dd;background:#fff;color:#344054;border-radius:9px;padding:8px 11px;font-weight:700;cursor:pointer}.small-button:hover{background:#f2f4f7}.tabs{display:flex;gap:7px;margin-top:14px;border-bottom:1px solid #eaecf0;position:sticky;top:0;z-index:2;background:#fff}.tab{flex:1;border:1px solid #eaecf0;border-bottom:0;background:#f8fafc;padding:11px 8px;border-radius:10px 10px 0 0;cursor:pointer;color:#667085;font-weight:700}.tab.active{background:#fff;color:#17202a}.tab b{margin-left:5px}.tab-panels{border:1px solid #eaecf0;border-top:0;border-radius:0 0 14px 14px}.tab-panel{display:none;max-height:min(60vh,520px);overflow-y:auto;overscroll-behavior:contain}.tab-panel.active{display:block}.candidate{display:flex;gap:12px;align-items:flex-start;padding:13px;border-bottom:1px solid #f2f4f7;cursor:pointer}.candidate:last-child{border-bottom:0}.candidate:hover{background:#f9fafb}.candidate input{width:19px;height:19px;flex:none;margin-top:2px}.candidate-main{min-width:0;flex:1}.candidate-top{display:flex;align-items:center;gap:8px;justify-content:space-between}.candidate-meta,.candidate-reason{display:block;font-size:12px;color:#667085;line-height:1.55}.candidate-reason{margin-top:2px}.badge.complete{background:#ecfdf3;color:#027a48}.badge.partial{background:#fffaeb;color:#b54708}.badge.low{background:#fef3f2;color:#b42318}.empty{padding:24px;text-align:center;color:#667085}.button:disabled{opacity:.45;cursor:not-allowed}
-@media(max-width:650px){.selection-title{display:block}.selection-title span{display:block;margin-top:4px}.tab{font-size:12px}.candidate-top{align-items:flex-start}.candidate-meta,.candidate-reason{font-size:11px}}
-.app-version{color:#667085}
-.position-notice{margin-top:14px;padding:13px 15px;border-radius:12px;background:#fffaeb;border:1px solid #fedf89;color:#93370d;font-size:13px;line-height:1.7}
-.position-notice strong{display:block;margin-bottom:3px}
+/* ===========================================================================
+   セーブデータ修復の受付 — style.css
+   v3 で画面を作り直した(NER Pokémon Recovery v76 / NER Converter v17 と同じ上部バー・手順・カード)。
+   上部バー(YouTube・X・NER PORTAL)/ 手順 1 取り出す → 2 依頼する → 3 受け取る /
+   入力は「ファイル / 受け取り用 / 伝えたいこと」の 3 つに分け、スマホでは「修復を依頼する」を画面下に固定 /
+   パソコン(960px 以上)は左に依頼フォーム、右に送り先・結果の確認・よくある質問。
+   小さいアイコンは見た目の大きさを変えず、押せる範囲だけ透明な ::after で 44px にする。
+   =========================================================================== */
+*{box-sizing:border-box}
+:root{--bg:#f4f6f8;--card:#fff;--ink:#17202a;--sub:#475467;--mute:#5d6b82;--line:#e4e7ec;--line2:#d0d5dd;--blue:#2563eb;--blue2:#1d4ed8;--blue-soft:#eaf1ff;--ok:#067647;--ok-soft:#e7f8ef;--warn:#b54708;--warn-soft:#fff4e5;--ng:#b42318;--ng-soft:#fef3f2;--r:18px;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Segoe UI",sans-serif;color:var(--ink);background:var(--bg);-webkit-text-size-adjust:100%}
+body{margin:0;font-size:15px;line-height:1.6;word-break:auto-phrase;text-wrap:pretty}
+a{color:var(--blue2)}
+code{background:#eef2f7;border-radius:5px;padding:1px 5px;font-size:.92em;word-break:break-all}
+.hidden{display:none!important}
+[hidden]{display:none!important}
+.skip-link{position:absolute;left:8px;top:-60px;z-index:3000;background:var(--blue);color:#fff;padding:10px 14px;border-radius:10px;font-weight:800}
+.skip-link:focus{top:8px}
+:focus-visible{outline:3px solid #84adff;outline-offset:2px}
+svg{flex:none}
 
-.structure-report{margin-top:14px;padding:13px 15px;border-radius:12px;background:#f2f4f7;border:1px solid #d0d5dd;color:#344054;font-size:13px;line-height:1.7}
-.structure-report strong{display:block;margin-bottom:3px}
-.structure-report p{margin:4px 0}
-.structure-report ul{margin:4px 0;padding-left:20px}
-.pkhex-howto{margin-top:14px;padding:13px 15px;border-radius:12px;background:#eff8ff;border:1px solid #b2ddff;color:#194185;font-size:13px;line-height:1.7}
-.pkhex-howto ol{margin:6px 0 0;padding-left:20px}
-.visitor-counter{margin-top:8px;color:#667085;font-variant-numeric:tabular-nums}
-.candidate-list{margin-top:14px;border:1px solid #eaecf0;border-radius:14px;max-height:min(60vh,520px);overflow-y:auto;overscroll-behavior:contain}.candidate-list .candidate:last-child{border-bottom:0}
-/* ===== 一覧(v13) =====
-   列: チェック / ボール / ポケモン名(色違い枠つき) / 性別 / Lv. / 親名 / 特性
-   各列の幅を固定し、見出し行(.pk-head)と個体の行で同じ定義を使うので、
-   情報の種類ごとに開始位置が全行でそろう。 */
-.pk-row{display:grid;grid-template-columns:20px 9em 8.6em 2.4em 4.2em 7.6em minmax(0,1fr);grid-template-areas:"chk ball name gender level ot ability";column-gap:10px;align-items:center}
-.ball-images .pk-row{grid-template-columns:20px 3em 8.6em 2.4em 4.2em 7.6em minmax(0,1fr)}
-.pk-row .candidate-check,.pk-h-chk{margin:0;grid-area:chk}
-.pk-ball{grid-area:ball;font-size:12px;color:#475467;background:#f2f4f7;border-radius:999px;padding:3px 8px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pk-ball.has-img{background:none;padding:0;text-align:left;line-height:0}
-.pk-ball img{width:28px;height:28px}
-.pk-name{grid-area:name;display:flex;align-items:center;min-width:0;font-weight:800}
-.pk-shiny{flex:0 0 20px;width:20px;height:18px;display:inline-flex;align-items:center}
-.pk-shiny img{width:18px;height:18px;display:block}
-.pk-name-text{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pk-gender{grid-area:gender;text-align:center}.pk-gender.male{color:#1570ef}.pk-gender.female{color:#e31b54}
-.pk-ot{grid-area:ot;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#344054}
-.pk-level{grid-area:level;font-variant-numeric:tabular-nums;white-space:nowrap}
-.pk-ability{grid-area:ability;color:#344054;word-break:keep-all;overflow-wrap:anywhere}
-/* 1 行おきに薄いグレー(見出し行は数えない) */
-.candidate-list .candidate.pk-row:nth-child(odd){background:#f4f5f7}
-/* 見出し行: 一覧の先頭に常に表示 */
-.pk-head{position:sticky;top:0;z-index:1;background:#e9ecf1;padding:8px 13px;font-weight:700;color:#475467;border-bottom:1px solid #d0d5dd}
-/* 列幅は em なので、文字サイズは行ではなく中身にだけ指定する(行に指定すると列幅が変わってずれる) */
-.pk-head>*{font-size:12px}
-.pk-head .pk-ball{background:none;padding:0;border-radius:0;font-size:12px;color:#475467;overflow:visible;text-align:left}
-.pk-head .pk-name{font-weight:700}
-.pk-head .pk-ot,.pk-head .pk-ability{color:#475467}
-/* スマホ幅: 2 段組み
-   上段 = ボール・ポケモン名・性別・Lv.(性別と Lv. は右端の固定幅)
-   下段 = 親名(ポケモン名の文字の真下から、固定幅)・特性 */
-@media(max-width:650px){
-  .pk-row,.ball-images .pk-row{grid-template-columns:18px 34px 20px 6.2em minmax(0,1fr) 2em 3.6em;grid-template-areas:"chk ball name name name gender level" "chk ball . ot ability ability ability";column-gap:6px;row-gap:1px;font-size:14px}
-  .pk-ball{font-size:10px;padding:3px 3px;align-self:center;text-overflow:clip}
-  .ball-suffix{display:none}
-  .pk-ot,.pk-ability{font-size:13px}
-  .pk-shiny{flex-basis:26px;width:26px}
-  .pk-head{padding:7px 9px;row-gap:2px}
-  .pk-head>*,.pk-head .pk-ball{font-size:11px}
-  .pk-ot{white-space:normal;word-break:keep-all;overflow-wrap:anywhere}
-  .wrap{padding-left:14px;padding-right:14px}.card{padding:14px}.candidate-list .candidate{padding:11px 9px}
-}
-@media(max-width:350px){.pk-row{font-size:13px}.pk-name-text{white-space:normal;overflow:visible;overflow-wrap:anywhere}}
-/* v14: 一覧の縦幅。高さは JS(setupListResizer)が設定する。上限なし、下のつまみで変更 */
-.candidate-list{max-height:max-content;border-radius:14px 14px 0 0}
-.list-resizer{height:22px;display:flex;align-items:center;justify-content:center;cursor:ns-resize;touch-action:none;user-select:none;border:1px solid #eaecf0;border-top:0;border-radius:0 0 14px 14px;background:#f8fafc}
-.list-resizer span{width:44px;height:5px;border-radius:999px;background:#c4cad4}
-.list-resizer:hover span,.list-resizer.dragging span,.list-resizer:focus-visible span{background:#667085}
-.list-resizer:focus-visible{outline:2px solid #84adff;outline-offset:1px}
-/* v15: いいねボタン */
-.like-box{margin-top:22px;text-align:center}
-.like-button{display:inline-flex;align-items:center;gap:8px;border:1px solid #fecdd6;background:#fff;color:#c01048;border-radius:999px;padding:10px 20px;font-size:15px;font-weight:800;cursor:pointer}
-.like-button:hover:not(:disabled){background:#fff1f3}
-.like-button.liked{background:#fff1f3;border-color:#fea3b4;cursor:default}
-.like-button:disabled{opacity:1}
-.like-heart{font-size:18px;line-height:1}
-.like-count{font-variant-numeric:tabular-nums;color:#344054;border-left:1px solid #fecdd6;padding-left:10px}
-.like-note{margin:6px 0 0;font-size:12px;color:#667085}
-/* v16: 一覧表示 / ボックス表示 のタブ */
-.view-tabs{display:flex;gap:6px;margin-top:14px;border-bottom:1px solid #d0d5dd}
-.view-tab{border:1px solid #d0d5dd;border-bottom:0;background:#f2f4f7;color:#475467;font-weight:800;font-size:14px;padding:9px 16px;border-radius:10px 10px 0 0;cursor:pointer;margin-bottom:-1px}
-.view-tab.active{background:#fff;color:#17202a;border-bottom:1px solid #fff}
-.view-panel{display:none}.view-panel.active{display:block}
-.view-panel .candidate-list{margin-top:10px}
-/* ボックス表示(状態クラスは is-*。既存の .empty などと衝突させないため) */
-.box-viewer{margin-top:12px}
-.box-nav{display:flex;align-items:center;justify-content:center;gap:8px}
-.box-select{font-size:15px;font-weight:800;padding:7px 10px;border:1px solid #d0d5dd;border-radius:9px;background:#fff;min-width:11em;text-align:center}
-.box-grid{margin:12px auto 0;max-width:560px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px;padding:10px;background:#e7ecf3;border:1px solid #cfd8e3;border-radius:14px}
-.box-cell{position:relative;aspect-ratio:68/56;border-radius:9px;border:1px solid #d5dde8;background:#f7f9fc;display:flex;align-items:center;justify-content:center;padding:2px;min-width:0;overflow:hidden;font:inherit}
-.box-cell.is-pokemon{background:#fff;border-color:#b9c4d3;cursor:pointer;opacity:.45}
-.box-cell.is-pokemon.selected{opacity:1;border-color:#2e90fa;box-shadow:0 0 0 1px #2e90fa inset}
-.box-cell.is-pokemon:hover{background:#f0f6ff}
-.box-cell.is-pokemon:focus-visible{outline:2px solid #84adff;outline-offset:1px}
-.box-cell.is-empty{background:#f7f9fc}
-.box-cell.is-damaged{background:repeating-linear-gradient(135deg,#fde8e8 0 6px,#fbd5d5 6px 12px);border-color:#f5b5b5}
-.box-cell.is-missing{background:#eceff3;border-style:dashed}
-.box-damaged{font-size:10px;font-weight:700;color:#b42318}
-.box-name{font-size:12px;font-weight:800;line-height:1.2;text-align:center;word-break:keep-all;overflow-wrap:anywhere;color:#17202a}
-.box-icon{width:100%;height:100%;object-fit:contain;image-rendering:pixelated;box-sizing:border-box;padding:var(--icon-pad,6px)}   /* v44: マスの上下左右に約 1mm(スマホで 6px)の余白。v43 は 0 */
-.box-cell.is-pokemon,.box-cell.is-egg{padding:1px}
-.box-shiny,.box-ball,.box-check{z-index:1}
-.box-shiny{position:absolute;top:2px;right:2px;width:14px;height:14px}
-.box-ball{position:absolute;right:2px;bottom:2px;width:17px;height:17px;filter:drop-shadow(0 1px 1.5px rgba(16,24,40,.55)) drop-shadow(0 0 1px rgba(16,24,40,.35))}   /* v44: 少し大きく、影を付けて見やすく */
-.box-check{position:absolute;top:2px;left:3px;font-size:10px;font-weight:900;color:#2e90fa;display:none}
-.box-cell.is-pokemon.selected .box-check{display:block}
-.box-legend{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;margin-top:10px;font-size:12px;color:#475467}
-.box-legend .lg{display:inline-block;width:12px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px;border:1px solid #b9c4d3;background:#fff}
-.box-legend .lg.is-empty{background:#f7f9fc;border-color:#d5dde8}
-.box-legend .lg.is-damaged{background:#fbd5d5;border-color:#f5b5b5}
-.box-legend .lg.is-missing{background:#eceff3;border-style:dashed}
-.box-help,.box-empty-note{margin:8px 0 0;font-size:12px;color:#667085;text-align:center;line-height:1.6}
-@media(max-width:650px){.box-grid{gap:3px;padding:6px}.box-name{font-size:9.5px}.box-shiny{width:11px;height:11px}.box-ball{width:15px;height:15px}.view-tab{padding:8px 12px;font-size:13px}}
-/* ===== v17 ===== */
-/* タイトルロゴ */
-.hero-logo{margin:0 auto;max-width:680px;line-height:0}
-.hero-logo img{width:100%;height:auto;display:block}
-/* PC 幅では「親名：」「特性：」のラベルを出さない(見出し行があるため) */
-.pk-lbl{display:none;color:#667085;font-weight:600}
-/* 写真タブ */
-.photo-viewer{margin-top:12px;text-align:center}
-.photo-figure{margin:0}
-.photo-img{width:100%;max-width:400px;height:auto;border-radius:10px;border:1px solid #d0d5dd;image-rendering:auto}
-.photo-note{font-size:12px;color:#667085;margin:8px 0 0}
-.photo-actions{margin-top:10px}
-.photo-actions .small-button{display:inline-block;text-decoration:none}
-.photo-heading{margin:18px 0 0;font-size:15px}
-/* 親名・特性のまとまり。PC 幅では display:contents で各列に並ぶ */
-.pk-sub{display:contents}
-@media(max-width:650px){
-  /* スマホ幅: 上段 = ボール・ポケモン名・性別・Lv.(名前の列は最長の名前が入る固定幅にして性別との間を詰める)
-     下段 = 「親名：◯◯　特性：◯◯」を名前の文字の位置から 1 行に続けて表示(長いときだけ折り返す) */
-  .pk-row,.ball-images .pk-row{grid-template-columns:18px 34px calc(26px + 6.4em) 1.7em 3.6em minmax(0,1fr);grid-template-areas:"chk ball name gender level ." "chk ball sub sub sub sub";column-gap:6px}
-  .pk-shiny{flex-basis:26px;width:26px}
-  .pk-gender{text-align:left}
-  .pk-lbl{display:inline}
-  .pk-sub{display:block;grid-area:sub;padding-left:26px;font-size:13px;line-height:1.5;word-break:keep-all;overflow-wrap:anywhere}
-  .pk-sub .pk-ot,.pk-sub .pk-ability{display:inline;white-space:normal;overflow:visible;padding:0}
-  .pk-sub .pk-ot{margin-right:1em}
-  /* 見出し行: 親名・特性は出さない。「性別」は折り返さない */
-  .pk-head{grid-template-areas:"chk ball name gender level ."}
-  .pk-head .pk-sub,.pk-head .pk-ot,.pk-head .pk-ability{display:none}
-  .pk-head .pk-gender{white-space:nowrap;overflow:visible}
-}
-@media(max-width:350px){.pk-row,.ball-images .pk-row{grid-template-columns:18px 34px calc(26px + 5.6em) 1.7em 3.6em minmax(0,1fr)}}
-/* v19: 救出ボタンと「道具を取り出す」ボタンを横に並べる */
-.action-buttons{display:flex;gap:10px;margin-top:18px}
-.action-buttons .button{margin-top:0;flex:1}
-.button-secondary{background:#fff;color:#111827;border:2px solid #111827}
-.button-secondary:hover:not(:disabled){background:#f2f4f7}
-.bag-summary{margin:8px 0 0;font-size:12px;color:#667085;text-align:center}
-@media(max-width:650px){.action-buttons{gap:8px}.action-buttons .button{font-size:14px;padding:14px 8px}}
-/* v20: 道具タブ(ポケットごとの内側タブ) */
-.items-viewer{margin-top:12px}
-.item-tabs{display:flex;gap:6px;flex-wrap:wrap}
-.item-tab{flex:1;min-width:0;border:1px solid #d0d5dd;background:#f2f4f7;color:#475467;font-weight:800;font-size:13px;padding:8px 6px;border-radius:9px;cursor:pointer;white-space:nowrap}
-.item-tab b{margin-left:5px;font-variant-numeric:tabular-nums;color:#667085;font-weight:700}
-.item-tab.active{background:#111827;border-color:#111827;color:#fff}.item-tab.active b{color:#d0d5dd}
-.item-panels{margin-top:8px;border:1px solid #eaecf0;border-radius:12px;max-height:520px;overflow-y:auto}
-.item-panel{display:none;list-style:none;margin:0;padding:0}.item-panel.active{display:block}
-.item-row{display:flex;justify-content:space-between;align-items:center;padding:9px 13px;border-bottom:1px solid #f2f4f7}
-.item-row:nth-child(even){background:#f4f5f7}
-.item-row:last-child{border-bottom:0}
-.item-name{font-weight:700}
-.item-count{font-variant-numeric:tabular-nums;color:#344054}
-.item-empty{padding:16px;text-align:center;color:#667085;font-size:13px}
-@media(max-width:650px){.item-tab{font-size:12px;padding:7px 4px}.item-tab b{margin-left:3px}}
-/* v21: 性別マークをポケモン名と同じ高さにそろえる。
-   iPhone では ♂♀ が絵文字用フォントで描かれて行の高さが変わり、名前より下にずれていた。
-   文字表示の指定(U+FE0E)に加え、名前・性別・Lv. の行の高さを固定し、セルの中で上下中央に置く。 */
-.pk-name,.pk-gender,.pk-level{line-height:1.4;min-height:1.4em}
-.pk-gender{display:flex;align-items:center;justify-content:center;font-family:system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;font-variant-emoji:text}
-.pk-level{display:flex;align-items:center}
-@media(max-width:650px){.pk-gender{justify-content:flex-start}.pk-name,.pk-gender,.pk-level{align-self:center}}
-/* v22: 上部の概要は「推定ソフト」だけ。診断は表 */
-.summary{grid-template-columns:1fr}
-.diag-table{width:100%;border-collapse:collapse;margin-top:8px;background:#fff;border-radius:10px;overflow:hidden;font-size:13px}
-.diag-table th,.diag-table td{padding:7px 10px;border-bottom:1px solid #eaecf0;text-align:left;vertical-align:middle}
-.diag-table tr:last-child th,.diag-table tr:last-child td{border-bottom:0}
-.diag-table th{width:40%;font-weight:700;color:#344054;background:#f8fafc;white-space:nowrap}
-.diag-badge{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:800}
-.diag-badge.ok{background:#ecfdf3;color:#027a48}
-.diag-badge.ng{background:#fef3f2;color:#b42318}
-.diag-badge.warn{background:#fffaeb;color:#b54708}
-.diag-sub{display:block;margin-top:2px;font-size:12px;color:#667085}
-.diag-note{margin:8px 0 0;font-size:12px;line-height:1.6}
-@media(max-width:650px){.diag-table th{width:auto}}
-/* v23 */
-.selection-count{font-size:13px;font-weight:800;color:#344054;white-space:nowrap}
-.box-actions{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap}
-.box-actions .small-button:disabled{opacity:.45;cursor:not-allowed}
-/* 凡例: 選択中のマス(青枠+✓)= 復元する / 選択解除のマス(薄い)= 復元しない */
-.box-legend .lg{position:relative;width:22px;height:18px;border-radius:5px;vertical-align:-4px;margin-right:5px}
-.box-legend .lg.lg-on{background:#fff;border:1px solid #2e90fa;box-shadow:0 0 0 1px #2e90fa inset}
-.box-legend .lg.lg-on b{position:absolute;top:-1px;right:2px;font-size:9px;color:#2e90fa;font-style:normal}
-.box-legend .lg.lg-off{background:#fff;border:1px solid #b9c4d3;opacity:.45}
-
-/* v24: 選択中の数は見出しと同じ書体で右詰め */
-.selection-title .selection-count{font:inherit;font-weight:bold;color:inherit;margin-left:auto;text-align:right;white-space:nowrap}
-@media(max-width:650px){.selection-title{display:flex;flex-wrap:wrap}.selection-title .selection-count{display:block;margin-top:0;font-size:inherit}}
-/* v24: 道具は横 2 列。縞模様は行(2 マス)単位で交互にする */
-.item-panel.active{display:grid;grid-template-columns:1fr 1fr}
-.item-panel .item-row{min-width:0;gap:8px}
-.item-panel .item-row:nth-child(odd){border-right:1px solid #f2f4f7}
-.item-panel .item-row:nth-child(even){background:transparent}
-.item-panel .item-row:nth-child(4n+3),.item-panel .item-row:nth-child(4n+4){background:#f4f5f7}
-.item-panel .item-row:last-child{border-bottom:1px solid #f2f4f7}
-.item-panel .item-name{min-width:0;overflow-wrap:anywhere}
-.item-panel .item-count{flex:none}
-.item-panel .item-empty{grid-column:1/-1}
-.money-row{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 10px;padding:10px 13px;border:1px solid #eaecf0;border-radius:12px;background:#f8fafc}
-.money-row span{color:#667085;font-size:13px;font-weight:700}
-.money-row strong{font-variant-numeric:tabular-nums}
-@media(max-width:650px){.item-panel .item-row{padding:8px 9px;font-size:13px}}
-
-/* v25: ボックスの外にいる個体の場所(手持ち・バトルボックス・育て屋) */
-.pk-place{display:inline-block;vertical-align:1px;margin-left:8px;padding:1px 6px;border-radius:999px;background:#eef2ff;color:#3538cd;font-size:11px;font-weight:700;white-space:nowrap}
-.btn-sub{display:block;margin-top:2px;font-size:12px;font-weight:700;opacity:.75}
-@media(max-width:650px){.pk-ability .pk-place{margin-left:6px}}
-.dev-note{margin-top:14px;padding:10px 13px;border-radius:12px;background:#fffaeb;color:#b54708;font-size:13px;font-weight:700;border:1px solid #fedf89}
-
-/* v28: 道具タブの「道具とお金を取り出す」 */
-.items-toggle{display:flex;align-items:center;gap:10px;margin:0 0 10px;padding:11px 13px;border:1px solid #d0d5dd;border-radius:12px;background:#fff;font-weight:800;cursor:pointer}
-.items-toggle input{width:20px;height:20px;flex:none;margin:0}
-/* v28: 手持ち・バトルボックス・育て屋のページは 1 段だけ */
-.box-grid.is-special{align-content:start}
-/* v29: 「手持ち等」タブ。左 手持ち(2×3)/ 中央 バトルボックス(2×3)/ 右 育て屋(縦、一番下にタマゴ) */
-.party-layout{display:grid;grid-template-columns:2fr 2fr 1fr;gap:10px;margin:12px auto 0;max-width:480px;padding:10px;background:#e7ecf3;border:1px solid #cfd8e3;border-radius:14px}
-.party-col{min-width:0}
-.party-col h4{margin:0 0 6px;font-size:12px;color:#475467;text-align:center;white-space:nowrap}
-.party-grid{display:grid;gap:5px}
-.party-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
-.party-grid.daycare{grid-template-columns:minmax(0,1fr)}
-.party-grid.daycare+.party-sub{margin-top:10px}
-.party-sub{font-size:10.5px;color:#667085;text-align:center;margin:0 0 4px;white-space:nowrap}
-.box-cell.is-egg{cursor:pointer;color:#344054;background:#fff;border-color:#b9c4d3}
-.box-cell.is-egg.selected{opacity:1;border-color:#2e90fa;box-shadow:0 0 0 1px #2e90fa inset}
-.box-cell.is-egg.selected .box-check{display:block}
-.box-cell.is-egg:not(.selected){opacity:.55}
-@media(max-width:650px){.party-layout{gap:6px;padding:6px}.party-grid{gap:3px}.party-col h4{font-size:11px}}
-/* v30: お金の行のあとに道具のチェックが来るので間をあける */
-/* v31: タブが 7 個になったので、狭い画面では横にスクロールできるように */
-.view-tabs{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.view-tabs::-webkit-scrollbar{display:none}
-.view-tab{flex:none;white-space:nowrap}
-/* v31: 図鑑タブ */
-.dex-summary{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 10px}
-.dex-summary div{padding:10px 13px;border:1px solid #eaecf0;border-radius:12px;background:#f8fafc;display:flex;justify-content:space-between;align-items:baseline}
-.dex-summary span{color:#667085;font-size:13px;font-weight:700}
-.dex-summary strong{font-variant-numeric:tabular-nums;font-size:18px}
-.dex-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid #eaecf0;border-radius:12px;max-height:520px;overflow-y:auto}
-.dex-row{display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid #f2f4f7;min-width:0;font-size:13px}
-.dex-no{font-variant-numeric:tabular-nums;color:#98a2b3;font-size:12px;flex:none}
-.dex-name{font-weight:700;min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.dex-mark{flex:none;font-size:12px;color:#98a2b3}
-.dex-row.is-caught .dex-mark{color:#12b76a}
-@media(max-width:650px){.dex-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
-/* v31: トレーナータブ */
-.trainer-form{display:grid;gap:10px;margin:0 0 10px}
-.trainer-form label{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:700;color:#475467}
-.trainer-form input{font:inherit;font-size:16px;font-weight:700;color:#17202a;padding:10px 12px;border:1px solid #d0d5dd;border-radius:10px;background:#fff}
-.trainer-form input:focus{outline:2px solid #84adff;outline-offset:1px}
-.trainer-tid{font-variant-numeric:tabular-nums;max-width:9em}
-.dex-legend-caught{color:#12b76a}.dex-legend-seen{color:#98a2b3}
-/* v32: ポケモンタブの中の切り替え(一覧 / 手持ち等 / ボックス) */
-.view-panel[data-view="pokemon"]>.recovery-controls{margin-top:12px}
-.sub-tabs{display:flex;gap:4px;margin:12px 0 0;padding:4px;background:#f2f4f7;border-radius:11px}
-.sub-tab{flex:1;border:0;background:transparent;color:#475467;font:inherit;font-size:14px;font-weight:800;padding:8px 6px;border-radius:8px;cursor:pointer;white-space:nowrap}
-.sub-tab.active{background:#fff;color:#17202a;box-shadow:0 1px 3px rgba(16,24,40,.12)}
-.sub-panel{display:none;margin-top:10px}.sub-panel.active{display:block}
-/* v32: 手持ち等の 3 つ(手持ち・バトルボックス・育て屋)を外枠で区切る */
-.party-col{border:1px solid #b9c4d3;border-radius:10px;padding:6px;background:#eef2f7}
-/* v32: バッグのチェックボックスは先頭に横並び */
-.bag-toggles{display:flex;gap:8px;margin:0 0 10px;flex-wrap:wrap}
-.bag-toggles .items-toggle{flex:1;min-width:0;margin:0;white-space:nowrap}
-/* v32: 写真はトレーナータブの中 */
-.trainer-photo-heading{margin:22px 0 10px}
-@media(max-width:650px){.bag-toggles{gap:6px}.bag-toggles .items-toggle{font-size:14px;padding:10px;gap:7px}.bag-toggles .items-toggle input{width:18px;height:18px}}
-/* v33: トレーナータブ(裏 ID・試験データ表示・アバター) */
-.trainer-ids{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.trainer-ids label{min-width:0}
-.trainer-form label>span{line-height:1.3;height:1.3em}
-.trainer-form input{width:100%;min-width:0}
-.trainer-ids input{max-width:none}
-.trainer-form.is-template input{background:#f2f4f7;color:#667085;border-color:#eaecf0}
-.items-toggle.is-disabled{opacity:.55;cursor:not-allowed}
-.avatar-info{display:grid;gap:6px;margin:0 0 6px}
-.avatar-row{display:flex;justify-content:space-between;gap:10px;align-items:baseline;padding:9px 12px;border:1px solid #eaecf0;border-radius:10px;background:#fff;font-size:13px}
-.avatar-row span{color:#667085;font-weight:700}
-.avatar-info.is-template .avatar-row{background:#f2f4f7;color:#667085}
-/* v34: NER Converter と同じ YouTube・X のアイコン(左上に固定) */
-.social-fixed{position:fixed;top:18px;left:18px;z-index:1000;display:flex;align-items:center;gap:10px}
-.social-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:50%;text-decoration:none;box-shadow:0 3px 12px rgba(0,0,0,.22);transition:transform .15s ease,opacity .15s ease}
+/* ---- 上部のバー(Recovery と同じ) ---- */
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px max(14px,env(safe-area-inset-left));background:rgba(244,246,248,.94);backdrop-filter:saturate(1.4) blur(8px);-webkit-backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;min-height:44px;gap:8px;min-width:0;color:var(--ink);text-decoration:none;font-weight:800;font-size:15px;white-space:nowrap}
+.brand img{height:30px;width:auto;display:block}
+.brand span{overflow:hidden;text-overflow:ellipsis}
+.topbar-links{display:flex;align-items:center;gap:8px;flex:none}
+.social-icon{position:relative;width:42px;height:42px;display:grid;place-items:center;border-radius:50%;text-decoration:none;box-shadow:0 3px 12px rgba(0,0,0,.22);transition:transform .15s ease,opacity .15s ease}
+.social-icon::after,.portal-badge::after{content:"";position:absolute;inset:-1px}
 .social-icon:hover{transform:translateY(-2px) scale(1.05);opacity:.88}
 .youtube-icon{background:#ff0000}
-.youtube-play{width:0;height:0;margin-left:3px;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid #fff}
-.x-icon{background:#000;color:#fff;font-size:22px;font-weight:700;line-height:1}
-@media(max-width:600px){.social-fixed{top:12px;left:12px;gap:7px}.social-icon{width:38px;height:38px}}
-/* v34: 診断結果は折りたたみ */
-.diag-details summary{cursor:pointer;font-weight:800;list-style-position:inside}
-.diag-details[open] summary{margin-bottom:8px}
-/* v34: トレーナー(復元する / 自分で入力する)とアバター */
-.trainer-modes{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px}
-.trainer-modes .items-toggle{flex:1;min-width:0;margin:0;white-space:nowrap}
-.avatar-sub{font-size:12px;font-weight:800;color:#475467;margin:6px 0 0}
-@media(max-width:650px){.trainer-modes{flex-direction:column}.trainer-modes .items-toggle{flex:none}}
-/* v35: 開発用の帯(試験用セーブの切り替え) */
-.dev-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:14px;padding:10px 13px;border-radius:12px;background:#fffaeb;color:#b54708;font-size:13px;font-weight:700;border:1px solid #fedf89}
-.dev-bar label{display:flex;align-items:center;gap:6px;cursor:pointer}
-.dev-bar input{width:18px;height:18px;margin:0}
-/* v35: トレーナー・図鑑もタブとの間をあける(バッグと同じ) */
-.trainer-viewer,.dex-viewer{margin-top:12px}
-.party-sub{white-space:normal;line-height:1.25;word-break:keep-all}
-/* v36: 破損データのサンプル提供 */
-.sample-offer{display:flex;align-items:center;gap:8px;margin-top:12px;padding:10px 12px;border:1px solid #eaecf0;border-radius:12px;background:#f8fafc;font-size:13px;color:#344054}
-.sample-text{flex:1;min-width:0}
-.sample-info{position:relative;flex:none;width:20px;height:20px;border-radius:50%;border:1.5px solid #667085;color:#667085;display:grid;place-items:center;font:italic 700 12px/1 Georgia,serif;cursor:pointer;user-select:none}
-.sample-info:focus-visible{outline:2px solid #84adff;outline-offset:2px}
-.sample-tip{display:none;position:absolute;right:-8px;bottom:calc(100% + 8px);width:min(300px,80vw);padding:10px 12px;border-radius:10px;background:#17202a;color:#fff;font:400 12.5px/1.6 system-ui,-apple-system,sans-serif;font-style:normal;text-align:left;box-shadow:0 8px 24px rgba(16,24,40,.25);z-index:20}
-.sample-info:hover .sample-tip,.sample-info:focus .sample-tip,.sample-info.open .sample-tip{display:block}
-.sample-button{flex:none}
-.sample-button:disabled{opacity:.6;cursor:default}
-.sample-dialog{position:fixed;inset:0;z-index:2000;background:rgba(16,24,40,.45);display:grid;place-items:center;padding:16px}
-.sample-dialog.hidden{display:none}
-.sample-dialog-box{width:min(380px,100%);background:#fff;border-radius:16px;padding:20px;box-shadow:0 20px 50px rgba(16,24,40,.3)}
-.sample-dialog-box p{margin:0 0 16px;font-weight:700;line-height:1.6}
-.sample-dialog-actions{display:flex;gap:10px}
-.sample-dialog-actions .button{margin-top:0;flex:1}
-/* v36: 説明は欄の幅いっぱいに、欄の上に出す(狭い画面ではみ出さないように) */
-.sample-offer{position:relative}
-.sample-info{position:static}
-.sample-tip{left:0;right:0;width:auto;bottom:calc(100% + 6px)}
-.policy h3{font-size:15px;margin:18px 0 6px}
-/* v38: セーブデータ復元タブ */
-.restore-viewer{margin-top:12px}
-.restore-score{padding:14px 16px;border:1px solid #eaecf0;border-radius:14px;background:#f8fafc}
-.restore-score-head{display:flex;align-items:baseline;gap:10px}
-.restore-score-head span{font-weight:800;color:#475467}
-.restore-score-head strong{font-size:34px;line-height:1;font-variant-numeric:tabular-nums;margin-left:auto}
-.restore-score-head small{font-size:16px;margin-left:2px}
-.restore-score-head em{font-style:normal;font-weight:800;font-size:13px;padding:3px 10px;border-radius:999px}
-.restore-score.high em{background:#ecfdf3;color:#027a48}.restore-score.mid em{background:#fffaeb;color:#b54708}.restore-score.low em{background:#fef3f2;color:#b42318}
-.restore-bar{height:10px;border-radius:999px;background:#eaecf0;margin:10px 0 8px;overflow:hidden}
-.restore-bar i{display:block;height:100%;border-radius:999px;background:#12b76a}
-.restore-score.mid .restore-bar i{background:#f79009}.restore-score.low .restore-bar i{background:#f04438}
-.restore-score p{margin:0;font-size:13px;color:#475467}
-.restore-notes{margin:12px 0 0;padding-left:20px;font-size:13px;line-height:1.7;color:#344054}
-.restore-lost{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 0;font-size:12.5px}
-.restore-lost span{padding:3px 9px;border-radius:999px;background:#fef3f2;color:#b42318;font-weight:700}
-.restore-button{margin-top:14px}
-/* v38: タブが 5 つになったので、狭い画面では詰めて全部見えるように(長い「セーブデータ復元」は 2 行まで) */
-@media(max-width:650px){.view-tabs{gap:4px;overflow:visible}.view-tab{flex:1 1 auto;padding:7px 6px;font-size:12.5px;line-height:1.25}.view-tab .tab-wrap{white-space:normal;word-break:keep-all;display:inline-block}}
-/* v40: ゲームに戻す方法 */
-.return-guide{margin-top:14px;padding:14px 16px;border:2px solid #2e90fa;border-radius:14px;background:#f5faff}
-.guide-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.guide-head strong{font-size:16px}
-.guide-close{border:0;background:transparent;font-size:22px;line-height:1;color:#475467;cursor:pointer;padding:2px 6px}
-.guide-intro{margin:8px 0 10px;font-size:13.5px;line-height:1.7;color:#344054}
-.guide-sec{border-top:1px solid #d1e9ff;padding:8px 0}
-.guide-sec summary{cursor:pointer;font-weight:800;font-size:14px;color:#175cd3}
-.guide-sec ol{margin:8px 0 4px;padding-left:22px;font-size:13.5px;line-height:1.75;color:#344054}
-.guide-sec li{margin:3px 0}
-.guide-note{margin:6px 0 0;font-size:12.5px;line-height:1.7;color:#475467}
-
-/* v45: 「すべて選択」「すべて解除」と同じ行の右端に選択数 */
-.recovery-controls .selection-actions{align-items:center}
-.selection-actions .selection-count{margin-left:auto;font-size:15px;font-weight:800;color:#17202a}
-/* v45: ボックスの表示切り替え(アイコン / ポケモン名) */
-.box-mode{display:flex;justify-content:center;gap:0;margin:10px auto 10px;width:max-content;border:1px solid #d0d5dd;border-radius:9px;overflow:hidden}
-.box-mode-btn{border:0;background:#fff;color:#475467;padding:6px 14px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
-.box-mode-btn+.box-mode-btn{border-left:1px solid #d0d5dd}
-.box-mode-btn.active{background:#17202a;color:#fff}
-.box-grid:not(.with-icons) .box-cell.is-pokemon{padding:2px 3px}   /* v46: ポケモン名は上下中央 */
-/* v46: チェックは左上、色違いの印は右上 */
-/* v46: まるごと復元の推奨 */
-.restore-recommend{display:flex;gap:8px;align-items:center;margin:0 0 12px;padding:11px 14px;border-radius:12px;background:linear-gradient(135deg,#ecfdf3,#d1fadf);border:1px solid #32d583;color:#05603a;font-weight:800;line-height:1.6;box-shadow:0 2px 8px rgba(18,183,106,.15)}   /* v46: 嬉しい知らせとして緑 */
-.restore-recommend-icon{font-size:20px;flex:none}
-/* v46: 目的のアンケート */
-.survey-box{width:min(420px,100%);max-height:calc(100vh - 32px);overflow-y:auto}
-.survey-box h3{margin:0 0 6px;font-size:17px}
-.survey-lead{font-weight:400!important;font-size:13px;color:#667085;margin:0 0 12px!important}
-.survey-q{border:0;margin:0 0 12px;padding:0}
-.survey-q legend{font-weight:800;margin-bottom:6px;font-size:14px}
-.survey-opt{display:flex;gap:8px;align-items:center;padding:9px 10px;border:1px solid #d0d5dd;border-radius:10px;margin-bottom:6px;cursor:pointer;font-size:14px}
-.survey-opt:has(input:checked){border-color:#2e90fa;background:#eff8ff}
-.survey-opt input{width:17px;height:17px;flex:none;margin:0}
-.survey-text{font-weight:400!important;font-size:14px;margin:0 0 8px!important}
-.survey-apply-note{font-weight:400!important;font-size:12px;color:#667085;margin:8px 0 0!important}
-.survey-off{display:flex;gap:6px;align-items:center;justify-content:flex-end;margin-top:12px;font-size:12px;color:#667085;cursor:pointer}
-.survey-box .button:disabled{opacity:.45;cursor:not-allowed}
-.survey-choice{display:block;width:100%;text-align:left;border:1px solid #d0d5dd;background:#fff;border-radius:12px;padding:12px 14px;margin:0 0 8px;cursor:pointer;font:inherit;color:#17202a}
-.survey-choice:hover{border-color:#2e90fa;background:#eff8ff}
-.survey-choice b{display:block;font-size:15px;margin-bottom:4px}
-.survey-choice span{display:block;font-size:12.5px;color:#667085;line-height:1.55;font-weight:400}
-.survey-warn{font-weight:800!important;color:#b42318;background:#fef3f2;border:1px solid #fda29b;border-radius:10px;padding:10px 12px;margin:0 0 10px!important;line-height:1.6}
-.survey-sub{margin-top:8px;justify-content:flex-start}
-/* v48: 方法の切り替え(ポケモンを救出 / まるごと復元) */
-.method-switch{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
-.method-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;border:2px solid #d0d5dd;background:#f8fafc;border-radius:14px;padding:12px 12px 12px 14px;cursor:pointer;font:inherit;color:#475467;transition:.15s}
-.method-card b{font-size:16px;color:#344054}
-.method-card .method-icon{font-size:22px;line-height:1}
-.method-desc{font-size:12px;line-height:1.5;color:#667085}
-.method-card.active{border-color:#2e90fa;background:#fff;box-shadow:0 0 0 3px rgba(46,144,250,.15)}
-.method-card.active b{color:#17202a}
-.method-card:disabled{opacity:.5;cursor:not-allowed}
-.method-score{position:absolute;top:10px;right:10px;font-style:normal;font-size:11px;font-weight:800;border-radius:999px;padding:3px 8px;background:#f2f4f7;color:#475467}
-.method-score.high{background:#d1fadf;color:#05603a}.method-score.mid{background:#fef0c7;color:#93370d}.method-score.low{background:#fee4e2;color:#b42318}
-.method-caption{margin:14px 0 0;font-size:13px;font-weight:700;color:#475467}
-.method-caption+.view-tabs{margin-top:6px}
-@media(max-width:650px){.method-card{padding:10px}.method-card b{font-size:14.5px}.method-desc{font-size:11.5px}.method-score{position:static;margin-top:2px}}
-/* v50: 大切にされていたポケモンが跳ねる */
-@keyframes fav-hop{0%,100%{transform:translateY(0) scale(1.05,.95)}25%{transform:translateY(-5px) scale(1)}50%{transform:translateY(-7px) scale(1)}75%{transform:translateY(-3px) scale(1)}}   /* v57: 4 コマ(8 コマ/秒)、0.5 秒ごとに着地。一番高いところで 7px 上がる */
-/* v57: 跳ねるポケモンは下寄せ(上 8px・下 2px の余白)にして低い位置から跳ねる。上の余白 8px + マスの内側 1px − 跳ねる高さ 7px で、枠の上の線との間は最低 2px あく */
-.box-cell.is-favorite .fav-wrap{will-change:transform;-webkit-animation:fav-hop .5s steps(1,end) infinite;animation:fav-hop .5s steps(1,end) infinite;-webkit-animation-delay:var(--fav-delay,0s);animation-delay:var(--fav-delay,0s);transform-origin:50% 100%}
-/* v58: 跳ねるポケモンは枠(.fav-wrap)ごと動かす。枠はマスの内側から上 9px・下 2px・左右 6px の位置に固定し、
-   画像はその中で下寄せ。一番高いところで 7px 上がるので、マスの上の線との間は必ず 2px 以上あく(ブラウザによらない) */
-.box-cell.is-favorite .fav-wrap{position:absolute;top:9px;bottom:2px;left:6px;right:6px;display:flex;align-items:flex-end;justify-content:center}
-.box-cell.is-favorite .fav-wrap .box-icon{width:100%;height:100%;padding:0;object-fit:contain;object-position:50% 100%}
-.box-cell.is-favorite .fav-wrap .box-name{font-size:inherit}
-/* v59: アイコンを 1 枚の画像から切り出す(コンテナクエリでマスに合わせて拡大) */
-.spr-box{display:flex;align-items:center;justify-content:center;width:100%;height:100%;box-sizing:border-box;padding:6px;container-type:size;pointer-events:none}
-.spr{--s:min(calc(100cqw / var(--w)),calc(100cqh / var(--h)));flex:none;width:calc(var(--w) * var(--s));height:calc(var(--h) * var(--s));background-image:var(--atlas-url);background-repeat:no-repeat;background-size:calc(var(--atlas-w) * var(--s)) auto;background-position:calc(var(--x) * var(--s) * -1) calc(var(--y) * var(--s) * -1);image-rendering:pixelated}
-.box-cell.is-favorite .fav-wrap .spr-box{padding:0;align-items:flex-end}
-/* v59: 長押しで詳細(長押しで文字選択やメニューが出ないように) */
-.box-cell.is-pokemon{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
-.lg-hint{color:#98a2b3;font-size:12px}
-.pk-detail{width:min(440px,100%)}
-.pk-detail-head{display:flex;gap:12px;align-items:center;margin-bottom:8px}
-.pk-detail-icon{width:72px!important;height:60px!important;flex:none;padding:0!important;background:#f2f4f7;border-radius:12px}
-.spr-box.pk-detail-icon{padding:4px!important}
-.pk-detail-head h3{margin:0}
-.pk-g{font-size:15px;color:#667085}
-.pk-detail-sub{margin:2px 0 0!important;font-weight:400!important;font-size:13px;color:#667085}
-.pk-fav-reason{margin:0 0 10px!important;padding:8px 10px;border-radius:10px;background:#fffaeb;border:1px solid #fedf89;color:#93370d;font-size:13px;line-height:1.6}
-.pk-detail-table{width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:10px}
-.pk-detail-table th{width:6em;text-align:left;color:#667085;font-weight:700;padding:5px 0;vertical-align:top;border-bottom:1px solid #f2f4f7}
-.pk-detail-table td{padding:5px 0;border-bottom:1px solid #f2f4f7;line-height:1.5}
-.pk-stat-table{width:100%;border-collapse:collapse;font-size:12px;text-align:center;margin-bottom:6px}
-.pk-stat-table th,.pk-stat-table td{padding:4px 2px;border:1px solid #eaecf0}
-.pk-stat-table tr:first-child th{background:#f8fafc;font-weight:700;color:#475467;font-size:11px}
-.pk-stat-table tr th:first-child{background:#f8fafc;color:#475467;white-space:nowrap}
-.dup-note{margin:10px 0 0;font-size:12.5px;color:#93370d}
-
-/* NER PORTAL SITE へのリンク(YouTube・X の右に固定) */
-.portal-badge{height:42px;display:inline-flex;align-items:center;gap:8px;padding:0 15px 0 6px;border-radius:999px;text-decoration:none;color:#fff;background:linear-gradient(120deg,#1ec8d8 0%,#2563eb 50%,#7c3aed 100%);box-shadow:0 3px 12px rgba(0,0,0,.22);transition:transform .15s ease,opacity .15s ease;font:800 13px/1 system-ui,-apple-system,"Hiragino Sans",sans-serif;letter-spacing:.06em;white-space:nowrap}
-.portal-badge:hover{transform:translateY(-2px) scale(1.03);opacity:.92}
+.youtube-play{width:0;height:0;margin-left:3px;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:11px solid #fff}
+.x-icon{background:#000;color:#fff}
+.x-icon svg{width:18px;height:18px}
+.portal-badge{position:relative;height:42px;display:inline-flex;align-items:center;gap:7px;padding:0 14px 0 6px;border-radius:999px;text-decoration:none;color:#fff;background:linear-gradient(120deg,#1ec8d8 0%,#2563eb 50%,#7c3aed 100%);font:800 14px/1 system-ui,-apple-system,"Hiragino Sans",sans-serif;letter-spacing:.04em;white-space:nowrap;transition:transform .15s ease,opacity .15s ease;box-shadow:0 3px 12px rgba(0,0,0,.22)}
 .portal-badge svg{width:30px;height:30px;flex:none;border-radius:50%;background:rgba(255,255,255,.14)}
-@media(max-width:600px){.portal-badge{height:38px;font-size:12px;padding:0 12px 0 5px;gap:6px}.portal-badge svg{width:28px;height:28px}}
+.portal-badge:hover{transform:translateY(-2px) scale(1.03);opacity:.92}
+@media(max-width:600px){.brand img{height:34px}.brand>span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.topbar-links{gap:6px}.social-icon{width:38px;height:38px}.portal-badge{height:38px;padding:0 12px 0 5px;gap:6px;font-size:12px}.social-icon::after,.portal-badge::after{inset:-3px}.portal-badge svg{width:28px;height:28px}}
+@media(max-width:360px){.brand img{height:28px}.portal-badge>span{display:none}.portal-badge{padding:0 6px}}
+
+/* ---- 手順 ---- */
+.steps{list-style:none;display:flex;gap:6px;max-width:1120px;margin:12px auto 0;padding:0 16px}
+.step{flex:1;text-align:center;font-size:14px;font-weight:700;color:var(--mute);line-height:1.3}
+.step .bar{display:block;height:5px;border-radius:5px;background:#dfe3ea;margin-bottom:7px;transition:background .2s}
+.step b{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#667085;color:#fff;font-size:14px;margin-right:4px;vertical-align:-4px}
+.step.done{color:var(--sub)}.step.done .bar{background:#7aa2ff}.step.done b{background:var(--blue2)}
+.step.now{color:var(--blue2)}.step.now .bar,.step.now b{background:var(--blue)}
+.s-long{display:none}
+
+/* ---- 全体 ---- */
+.wrap{max-width:720px;margin:0 auto;padding:12px 16px 40px}
+.card{background:var(--card);border:1px solid #e9edf2;border-radius:var(--r);box-shadow:0 1px 2px rgba(16,24,40,.05),0 8px 24px rgba(16,24,40,.06)}
+.hero{text-align:center;padding:4px 4px 0}
+.hero-logo{margin:0 auto;max-width:240px;line-height:0}
+.hero-logo img{width:100%;height:auto;display:block}
+.hero-title{margin:6px 0 0;font-size:20px;line-height:1.45;font-weight:900}
+.lead{margin:6px 0 0;font-size:14px;color:var(--sub);line-height:1.7}
+.lead b{color:var(--ink)}
+.games{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;margin:10px 0 0}
+.games span{padding:5px 10px;border-radius:999px;background:var(--blue-soft);color:var(--blue2);font-size:13px;font-weight:800}
+.games span.plain{background:#eef2f7;color:var(--sub)}
+
+/* ---- ボタン ---- */
+.button{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;margin-top:14px;border:0;border-radius:14px;padding:12px 18px;background:var(--blue);color:#fff;font:inherit;font-size:17px;font-weight:800;cursor:pointer;box-shadow:0 6px 16px rgba(37,99,235,.25);text-decoration:none}
+.button:hover:not(:disabled){background:var(--blue2)}
+.button:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
+.button svg{width:20px;height:20px}
+.button-secondary{background:#fff;color:var(--ink);border:1.5px solid var(--line2);box-shadow:none;font-size:15px;min-height:48px}
+.button-secondary:hover:not(:disabled){background:#f2f4f7}
+.button-ok{background:var(--ok);box-shadow:0 6px 16px rgba(6,118,71,.25)}
+.button-ok:hover:not(:disabled){background:#05603a}
+
+/* ---- 依頼する / 結果を確認する の切り替え(スマホ) ---- */
+.seg{display:flex;gap:4px;padding:4px;background:#e9edf3;border-radius:14px}
+.seg-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;border:0;border-radius:10px;background:transparent;color:var(--sub);font:inherit;font-size:15px;font-weight:800;cursor:pointer;white-space:nowrap;padding:6px 8px}
+.seg-btn.active{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(16,24,40,.14)}
+.rq-tabs{margin-top:14px}
+.rq-tabs .seg-btn{min-height:46px}
+.rq-tabs .seg-btn.active{color:var(--blue2)}
+.rq-panel{display:none}.rq-panel.active{display:block}
+
+/* ---- 持ってき方 ---- */
+.rq-help{margin-top:14px;padding:0 16px}
+.rq-help summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;min-height:52px;padding:4px 0;font-weight:800;font-size:15px;line-height:1.45}
+.rq-help summary::-webkit-details-marker{display:none}
+.rq-help .q{flex:none;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px}
+.rq-help summary::after{content:"▼";margin-left:auto;font-size:12px;color:var(--mute);transition:transform .2s}
+.rq-help[open] summary::after{transform:rotate(180deg)}
+.rq-help-body{padding:0 0 14px;font-size:14px;line-height:1.7;color:#344054}
+.help-tabs{margin:4px 0 6px}
+.help-tabs .seg-btn{font-size:14px;background:#f2f4f7;color:var(--sub)}
+.help-tabs{background:none;padding:0;gap:6px}
+.help-tabs .seg-btn.active{background:var(--ink);color:#fff;box-shadow:none}
+.help-lead{margin:10px 0 0}
+.rq-help-body h4{margin:14px 0 2px;font-size:15px;font-weight:900;color:var(--ink)}
+.rq-help-body p{margin:6px 0 0}
+.how{list-style:none;counter-reset:s;margin:6px 0 0;padding:0}
+.how li{counter-increment:s;display:flex;gap:10px;font-size:14px;line-height:1.65;padding:9px 0;border-top:1px solid #f0f2f5}
+.how li:first-child{border-top:0}
+.how li::before{content:counter(s);flex:none;display:grid;place-items:center;width:24px;height:24px;margin-top:1px;border-radius:7px;background:var(--blue-soft);color:var(--blue2);font-weight:800;font-size:13px}
+.rq-video{display:flex;align-items:center;gap:12px;min-height:44px;margin:10px 0 0;padding:8px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--ink);background:#f8fafc}
+.rq-video:hover{background:#f2f4f7}
+.rq-video-thumb{position:relative;width:120px;aspect-ratio:16/9;border-radius:8px;flex:none;overflow:hidden;background:#111 url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Crect x=%271.5%27 y=%274.5%27 width=%2721%27 height=%2715%27 rx=%274.5%27 fill=%27%23ff0033%27/%3E%3Cpath d=%27M10 8.8v6.4l5.6-3.2z%27 fill=%27%23fff%27/%3E%3C/svg%3E") center/38px no-repeat}
+.rq-video-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rq-video>span:last-child{display:flex;flex-direction:column;gap:3px;font-size:14px}
+.rq-video b{color:var(--blue2)}
+.rq-video small{color:#b42318;font-weight:800;font-size:13px}
+.rq-help-small{font-size:13px;color:var(--sub)}
+.rq-help-note{display:flex;gap:10px;margin:12px 0 0!important;padding:12px 14px;border-radius:12px;background:var(--warn-soft);color:#93370d;font-size:13.5px;line-height:1.6}
+
+/* ---- 依頼のフォーム ---- */
+.form-card{margin-top:14px;padding:16px}
+.grp{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:900;margin:4px 0 12px}
+.grp i{font-style:normal;flex:none;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px}
+.grp.next{margin-top:22px;padding-top:18px;border-top:1px solid #f0f2f5}
+.rq-field{margin-bottom:14px}
+.rq-field>label:not(.rq-file),.rq-file-label{display:flex;align-items:center;gap:6px;font-weight:800;font-size:14px;margin-bottom:6px}
+.rq-field em{font-style:normal;font-size:11px;font-weight:800;color:#b42318;background:var(--ng-soft);border-radius:5px;padding:1px 6px}
+.rq-field em.opt{color:var(--sub);background:#eef2f7}
+.rq-field small{display:block;color:var(--sub);font-size:13px;margin-top:5px;line-height:1.55}
+.rq-field small.good{color:var(--ok);font-weight:700}
+.rq-field small.bad{color:var(--ng);font-weight:700}
+.rq-field input[type=text],.rq-field input[type=password],.rq-field textarea{width:100%;min-height:48px;border:1.5px solid var(--line2);border-radius:12px;padding:11px 14px;font:inherit;font-size:16px;background:#fff;color:var(--ink)}
+.rq-field input:focus,.rq-field textarea:focus{border-color:var(--blue);outline:none;box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.rq-field input.ok{border-color:#32d583}
+.rq-field input.ng{border-color:#fda29b}
+.rq-field textarea{min-height:96px;resize:vertical;line-height:1.6}
+.rq-file{display:flex;align-items:center;gap:12px;min-height:72px;border:2px dashed #9db8f5;border-radius:14px;padding:14px;background:linear-gradient(180deg,#f5f8ff,#fff);cursor:pointer;transition:.15s}
+.rq-file:hover,.rq-file.drag{border-color:var(--blue);background:var(--blue-soft)}
+.rq-file input{display:none}
+.rq-file .ic{flex:none;width:44px;height:44px;border-radius:14px;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center}
+.rq-file .ic svg{width:24px;height:24px}
+.rq-file .i-ok{display:none}
+.rq-file-text{flex:1;min-width:0}
+.rq-file-title{display:block;font-size:15px;overflow-wrap:anywhere}
+.rq-file-name{display:block;font-size:13px;color:var(--sub);overflow-wrap:anywhere}
+.rq-file .chg{display:none;margin-left:auto;flex:none;font-size:14px;font-weight:800;color:var(--blue2);padding:10px 4px}
+.rq-file.done{border:1.5px solid #abefc6;background:var(--ok-soft)}
+.rq-file.done .ic{background:#fff;color:var(--ok)}
+.rq-file.done .i-up{display:none}.rq-file.done .i-ok{display:block}
+.rq-file.done .chg{display:block}
+.when-mouse{display:none}
+@media(hover:hover) and (pointer:fine){.when-mouse{display:inline}}
+.rq-consent{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:12px;background:#f7f9fc;border:1px solid var(--line);font-size:14px;line-height:1.6;color:#344054;cursor:pointer}
+.rq-consent input{width:22px;height:22px;flex:none;margin:1px 0 0;accent-color:var(--blue)}
+.trust{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--ok-soft);color:#05603a;font-size:13px;line-height:1.6}
+.trust svg{width:20px;height:20px;margin-top:1px}
+.trust p{margin:0}
+.trust b{display:block;font-size:14px}
+.trust-plain{margin:0;padding:0;background:none}
+.dock-meta{display:none;justify-content:space-between;gap:10px;margin:0 0 8px;font-size:13px;color:var(--sub)}
+.dock-meta span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dock-meta b{color:var(--ink);flex:none}
+.rq-handoff{display:flex;gap:10px;margin-bottom:14px;padding:12px 14px;border-radius:12px;background:var(--ok-soft);border:1px solid #abefc6;color:#05603a;font-size:14px;line-height:1.6}
+.rq-handoff svg{width:20px;height:20px;margin-top:2px}
+.rq-banner{margin-bottom:14px;padding:10px 12px;border-radius:10px;background:#fffaeb;border:1px solid #fedf89;color:#93370d;font-size:13px}
+
+/* ---- メッセージと結果 ---- */
+.rq-msg{margin-top:14px;padding:12px 14px;border-radius:12px;line-height:1.6;font-size:14px}
+.rq-msg.err{background:var(--ng-soft);color:var(--ng);border:1px solid #fecdca}
+.rq-msg.info{background:#f2f4f7;color:#344054}
+.rq-result{margin-top:14px;padding:18px;border-radius:var(--r);border:1px solid var(--line);background:#f8fafc;line-height:1.7;font-size:14px}
+.rq-result p{margin:6px 0 0}
+.rq-result.done{background:linear-gradient(135deg,#ecfdf3,#d1fadf);border-color:#32d583;color:#05603a}
+.rq-result.failed{background:var(--ng-soft);border-color:#fda29b;color:#7a271a}
+.rq-result h3{margin:0;font-size:21px;font-weight:900;line-height:1.35}
+.rq-id{font-family:ui-monospace,"SFMono-Regular",Menlo,monospace;font-size:20px;font-weight:800;letter-spacing:.06em}
+.rq-who{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;font-size:13px;margin-top:10px!important}
+.rq-id-s{font-family:ui-monospace,"SFMono-Regular",Menlo,monospace;font-size:15px}
+.rq-steps{margin:14px 0 0;padding:12px 12px 12px 30px;background:rgba(255,255,255,.7);border-radius:12px;font-size:13.5px;line-height:1.65;color:#344054}
+.rq-steps li{margin:3px 0}
+
+/* ---- 結果を確認する ---- */
+.check-card{margin-top:14px;padding:16px}
+.check-card{display:none}
+.check-card.rq-panel.active{display:flex}
+.check-card{flex-direction:column}
+.check-title{display:none;margin:0 0 4px;font-size:16px;font-weight:900}
+.rq-list{order:3;margin:16px -16px -16px;border-top:1px solid #f0f2f5}
+.rq-list h3{margin:0;padding:6px 8px 6px 16px;font-size:15px;font-weight:900;display:flex;justify-content:space-between;align-items:center}
+.rq-list h3 button{min-height:44px;min-width:44px;border:0;background:none;color:var(--blue2);font:inherit;font-size:14px;font-weight:800;cursor:pointer;padding:0 8px}
+.rq-list ul{list-style:none;margin:0;padding:0;max-height:320px;overflow-y:auto}
+.rq-list li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 16px;border-top:1px solid #f0f2f5;font-size:14px}
+.rq-list li.me{background:var(--blue-soft)}
+.rq-list .rq-name{font-family:ui-monospace,"SFMono-Regular",Menlo,monospace;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rq-list .rq-date{color:var(--mute);font-family:system-ui,sans-serif;font-size:13px;margin-left:8px;font-weight:500}
+.rq-no{font-size:12px;color:var(--mute);font-weight:700;margin-right:2px}
+.rq-badge{flex:none;font-size:12.5px;font-weight:800;border-radius:999px;padding:4px 11px}
+.rq-badge.waiting{background:#eef2f7;color:#475467}.rq-badge.done{background:#d1fadf;color:#05603a}.rq-badge.failed{background:#fee4e2;color:#b42318}
+.rq-list .rq-empty{color:var(--sub);justify-content:center;font-family:inherit}
+.rq-list-hint{margin:0;padding:10px 16px 14px;border-top:1px solid #f0f2f5;font-size:13px;color:var(--sub)}
+#cMsg{order:2}
+#checkForm{order:1}
+
+/* ---- よくある質問・送り先 ---- */
+.side-card{padding:16px}
+.faq{margin-top:14px}
+.faq ul{list-style:none;margin:0;padding:0}
+.faq li{margin:10px 0 0;font-size:14px;line-height:1.65;color:#344054}
+.faq li b{display:block;color:var(--ink)}
+.sec-h{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:800;margin:0 0 4px}
+.sec-h::before{content:"";width:4px;height:18px;border-radius:3px;background:var(--blue)}
+.send-d{display:none}
+
+footer{text-align:center;padding:24px 0 8px;font-size:13px;color:var(--sub)}
+footer a{color:#344054;display:inline-block;padding:12px 4px}
+
+/* ---- スマホ・タブレット(959px まで) ---- */
+@media(max-width:959px){
+  .m-br{display:inline}
+  .tab-check .rq-help{display:none}
+  /* 壊れたセーブを選んだら「修復を依頼する」を画面の下に固定 */
+  .has-file:not(.tab-check){padding-bottom:calc(120px + env(safe-area-inset-bottom))}
+  .has-file:not(.tab-check) #sendDock{position:fixed;left:0;right:0;bottom:0;z-index:60;margin:0;padding:10px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.97);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(16,24,40,.08)}
+  .has-file:not(.tab-check) #sendDock>*{max-width:688px;margin-left:auto;margin-right:auto}
+  .has-file:not(.tab-check) .dock-meta{display:flex}
+  .has-file:not(.tab-check) #sendDock .button{margin-top:0}
+  .side-card.faq{margin-top:14px}
+}
+
+/* ---- パソコン(960px 以上): 左に依頼フォーム、右に送り先・結果の確認・よくある質問 ---- */
+@media(min-width:960px){
+  .steps{padding:0 32px;margin-top:16px}
+  .s-short{display:none}.s-long{display:inline}
+  .wrap{max-width:1120px;padding:14px 32px 48px}
+  .layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:22px;align-items:start}
+  .m-br{display:none}
+  .hero{display:flex;align-items:center;gap:20px;padding:16px 22px;text-align:left;background:var(--card);border:1px solid #e9edf2;border-radius:var(--r);box-shadow:0 1px 2px rgba(16,24,40,.05),0 8px 24px rgba(16,24,40,.06)}
+  .hero-logo{flex:none;width:220px;max-width:none;margin:0}
+  .hero-title{font-size:21px;margin:0}
+  .games{justify-content:flex-start;margin-top:8px}
+  .rq-tabs{display:none}
+  .rq-help{margin-top:16px}
+  .rq-panel,.check-card{display:flex}
+  .form-card.rq-panel{display:block;margin-top:16px;padding:18px 20px}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+  .send-m{display:none}
+  .send-d{display:block}
+  .col-side>.card+.card{margin-top:14px}
+  .check-title{display:block}
+  .rq-list{order:0;margin:6px 0 0;border:0}
+  .rq-list h3{padding:0;font-size:14px;color:var(--sub)}
+  .rq-list h3 button{margin-right:-8px;font-size:13px}
+  .rq-list li{padding:8px 0;font-size:13.5px}
+  .rq-list li.me{margin:0 -8px;padding:8px;border-radius:8px}
+  .rq-list-hint{padding:6px 0 0;border-top:0;font-size:12px}
+  #checkForm{order:1;margin-top:6px}
+  #cMsg{order:2}
+  .check-card .rq-field{margin:10px 0 0}
+  .check-card .rq-field input{min-height:44px;padding:10px 12px;font-size:15px}
+  .check-card .button{margin-top:12px;min-height:46px}
+  .check-card .rq-result{padding:14px}
+  .check-card .rq-result h3{font-size:18px}
+  .faq li{font-size:13.5px}
+  footer{max-width:1120px;margin:0 auto}
+}
+
+/* privacy.html */
+body:not(:has(.topbar)) .wrap{padding-top:32px}
+body:not(:has(.topbar)) .hero{display:block;text-align:center;background:none;border:0;box-shadow:none;margin-bottom:20px}
+body:not(:has(.topbar)) .hero h1{margin:0;font-size:clamp(26px,7vw,34px);line-height:1.3}
+.info.policy{background:var(--card);border:1px solid #e9edf2;border-radius:var(--r);box-shadow:0 1px 2px rgba(16,24,40,.05),0 8px 24px rgba(16,24,40,.06);padding:24px 26px}
+.policy h2{font-size:18px;margin:26px 0 8px}
+.policy h2:first-child{margin-top:0}
+.policy p{line-height:1.75;margin:0 0 12px}
+#sMsg,#cMsg{scroll-margin-top:76px}
