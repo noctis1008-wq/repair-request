@@ -1,158 +1,143 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f4f6f8">
 <title>ポケモン セーブデータ修復の受付</title>
 <meta name="description" content="壊れてしまったポケモン X・Y / オメガルビー・アルファサファイアのセーブデータの修復を受け付けています。">
 <meta property="og:title" content="ポケモンの壊れたセーブデータ、修復します">
 <meta property="og:description" content="X・Y / ORAS の「レポートがこわれています」になったセーブデータを送ってください。修復できたらダウンロードできます。">
 <meta property="og:image" content="https://noctis1008-wq.github.io/repair-request/img/logo.png">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="style.css?v=2">
-<style>
-.rq-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
-.rq-tab{border:2px solid #d0d5dd;background:#f8fafc;border-radius:12px;padding:12px;font:inherit;font-weight:800;color:#475467;cursor:pointer}
-.rq-tab.active{border-color:#2e90fa;background:#fff;color:#17202a;box-shadow:0 0 0 3px rgba(46,144,250,.15)}
-.rq-panel{display:none}.rq-panel.active{display:block}
-.rq-field{margin-bottom:14px}
-.rq-field label{display:block;font-weight:800;font-size:14px;margin-bottom:6px}
-.rq-field small{display:block;color:#667085;font-size:12px;margin-top:4px;line-height:1.5}
-.rq-field input[type=text],.rq-field input[type=password],.rq-field textarea{width:100%;box-sizing:border-box;border:1px solid #d0d5dd;border-radius:10px;padding:11px 12px;font:inherit;font-size:16px;background:#fff}
-.rq-field textarea{min-height:96px;resize:vertical}
-.rq-file{display:flex;align-items:center;gap:10px;border:2px dashed #98a2b3;border-radius:12px;padding:14px;cursor:pointer;background:#f9fafb}
-.rq-file input{display:none}
-.rq-file .rq-file-name{color:#475467;font-size:14px;word-break:break-all}
-.rq-consent{display:flex;gap:8px;align-items:flex-start;font-size:13px;line-height:1.6;color:#344054;margin:6px 0 4px}
-.rq-consent input{width:18px;height:18px;flex:none;margin-top:2px}
-.rq-msg{margin-top:14px;padding:12px 14px;border-radius:12px;line-height:1.6;font-size:14px}
-.rq-msg.err{background:#fef3f2;color:#b42318}
-.rq-msg.info{background:#f2f4f7;color:#344054}
-.rq-result{margin-top:16px;padding:16px;border-radius:14px;border:1px solid #eaecf0;background:#f8fafc;line-height:1.7}
-.rq-result.done{background:linear-gradient(135deg,#ecfdf3,#d1fadf);border-color:#32d583;color:#05603a}
-.rq-result.failed{background:#fef3f2;border-color:#fda29b;color:#7a271a}
-.rq-result h3{margin:0 0 6px;font-size:18px}
-.rq-id{font-family:ui-monospace,monospace;font-size:20px;font-weight:800;letter-spacing:.06em}
-.rq-steps{margin:8px 0 0;padding-left:20px;font-size:13.5px;color:#344054}
-.rq-steps li{margin:4px 0}
-.rq-list{margin:0 0 18px;border:1px solid #eaecf0;border-radius:12px;overflow:hidden}
-.rq-list h3{margin:0;padding:10px 12px;font-size:14px;background:#f8fafc;border-bottom:1px solid #eaecf0;display:flex;justify-content:space-between;align-items:center}
-.rq-list h3 button{border:0;background:none;color:#2e90fa;font:inherit;font-size:12.5px;cursor:pointer}
-.rq-list ul{list-style:none;margin:0;padding:0;max-height:320px;overflow-y:auto}
-.rq-list li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid #f2f4f7;font-size:14px;cursor:pointer}
-.rq-list li:last-child{border-bottom:0}
-.rq-list li:hover{background:#f9fafb}
-.rq-list .rq-name{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.rq-list .rq-date{color:#98a2b3;font-size:12px;margin-left:6px;font-weight:400}
-.rq-badge{flex:none;font-size:12px;font-weight:800;border-radius:999px;padding:3px 10px}
-.rq-badge.waiting{background:#f2f4f7;color:#475467}.rq-badge.done{background:#d1fadf;color:#05603a}.rq-badge.failed{background:#fee4e2;color:#b42318}
-.rq-list .rq-empty{color:#667085;cursor:default;justify-content:center}
-.rq-banner{margin-bottom:14px;padding:10px 12px;border-radius:10px;background:#fffaeb;border:1px solid #fedf89;color:#93370d;font-size:13px}
-.rq-help{max-width:650px;margin:16px auto 0;text-align:left;background:#fff;border:1px solid #e4e7ec;border-radius:14px;box-shadow:0 6px 18px rgba(16,24,40,.05)}
-.rq-help summary{cursor:pointer;list-style:none;padding:13px 16px;font-weight:800;font-size:14.5px;display:flex;align-items:center;gap:8px}
-.rq-help summary::-webkit-details-marker{display:none}
-.rq-help summary::before{content:"?";flex:none;width:22px;height:22px;border-radius:50%;background:#111827;color:#fff;display:grid;place-items:center;font-size:13px}
-.rq-help summary::after{content:"▼";margin-left:auto;font-size:11px;color:#98a2b3;transition:transform .2s}
-.rq-help[open] summary::after{transform:rotate(180deg)}
-.rq-help-body{padding:0 16px 14px;font-size:13.5px;line-height:1.7;color:#344054}
-.rq-help-body h4{margin:12px 0 2px;font-size:14px;color:#17202a}
-.rq-help-body ol{margin:4px 0 0;padding-left:20px}
-.rq-help-body li{margin:3px 0}
-.rq-help-body .rq-help-note{margin:12px 0 0;padding:10px 12px;border-radius:10px;background:#fffaeb;color:#93370d;font-size:13px}
-.rq-video{display:flex;align-items:center;gap:12px;margin:10px 0 0;padding:8px;border:1px solid #e4e7ec;border-radius:12px;text-decoration:none;color:#17202a;background:#f8fafc}
-.rq-video-thumb{position:relative;width:132px;aspect-ratio:16/9;border-radius:8px;flex:none;overflow:hidden;background:#111 url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Crect x=%271.5%27 y=%274.5%27 width=%2721%27 height=%2715%27 rx=%274.5%27 fill=%27%23ff0033%27/%3E%3Cpath d=%27M10 8.8v6.4l5.6-3.2z%27 fill=%27%23fff%27/%3E%3C/svg%3E") center/38px no-repeat}
-.rq-video-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.rq-video span{display:flex;flex-direction:column;gap:3px;font-size:14px}
-.rq-video small{color:#d92d20;font-weight:800;font-size:12.5px}
-.rq-help-small{margin:6px 0 0;font-size:12px;color:#667085}
-.rq-handoff{margin-bottom:14px;padding:12px 14px;border-radius:12px;background:#ecfdf3;border:1px solid #abefc6;color:#05603a;font-size:13.5px;line-height:1.6}
-.rq-no{font-size:11px;color:#98a2b3;font-weight:700;margin-right:3px}
-#reqList li{cursor:default}
-#reqList li:hover{background:none}
-</style>
+<!-- 末尾の ?v= はブラウザのキャッシュ対策。style.css を変えたら index.html と privacy.html の数字を同じ値に上げる -->
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
-<div class="social-fixed">
-<a class="social-icon youtube-icon" href="https://www.youtube.com/@%E3%83%8D%E3%83%AB2048" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube"><span class="youtube-play" aria-hidden="true"></span></a>
-<a class="social-icon x-icon" href="https://x.com/ner2048" target="_blank" rel="noopener noreferrer" aria-label="X" title="X"><span aria-hidden="true">𝕏</span></a>
-<a class="portal-badge" href="https://noctis1008-wq.github.io/" aria-label="NER PORTAL SITE" title="NER PORTAL SITE"><svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="pbG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe14d"/><stop offset=".45" stop-color="#ff8a5c"/><stop offset=".75" stop-color="#ff4fd8"/><stop offset="1" stop-color="#9fd0ff"/></linearGradient></defs><path d="M8.5 25V13a7.5 7.5 0 0 1 15 0v12z" fill="none" stroke="url(#pbG)" stroke-width="2.4" stroke-linejoin="round"/><path d="M12 25V14.2a4 4 0 0 1 8 0V25" fill="none" stroke="url(#pbG)" stroke-width="2" stroke-linejoin="round"/><path d="M16 15.2l.9 2.6 2.6.9-2.6.9-.9 2.6-.9-2.6-2.6-.9 2.6-.9z" fill="#fff"/></svg><span>NER PORTAL SITE</span></a>
+<a class="skip-link" href="#main">本文へ移動</a>
+<!-- v3: 上部のバー(NER Pokémon Recovery と同じ)。YouTube・X・NER PORTAL はここに入れ、画面に重ならないようにした -->
+<header class="topbar">
+<a class="brand" href="./" aria-label="セーブデータ修復の受付 トップ"><picture><source srcset="img/logo.webp?v=1" type="image/webp"><img src="img/logo.png?v=1" width="1300" height="437" alt="" decoding="async"></picture><span>NER セーブデータ修復の受付</span></a>
+<nav class="topbar-links" aria-label="外部リンク">
+<a class="social-icon youtube-icon" href="https://www.youtube.com/@%E3%83%8D%E3%83%AB2048" target="_blank" rel="noopener noreferrer" aria-label="YouTube(新しいタブ)" title="YouTube"><span class="youtube-play" aria-hidden="true"></span></a>
+<a class="social-icon x-icon" href="https://x.com/ner2048" target="_blank" rel="noopener noreferrer" aria-label="X(新しいタブ)" title="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.2-8.3L1.9 3h6.4l4.4 5.8zm-1.1 16.2h1.7L7.4 4.7H5.6z"/></svg></a>
+<a class="portal-badge" href="https://noctis1008-wq.github.io/" title="NER PORTAL SITE"><svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="pbG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe14d"/><stop offset=".45" stop-color="#ff8a5c"/><stop offset=".75" stop-color="#ff4fd8"/><stop offset="1" stop-color="#9fd0ff"/></linearGradient></defs><path d="M8.5 25V13a7.5 7.5 0 0 1 15 0v12z" fill="none" stroke="url(#pbG)" stroke-width="2.4" stroke-linejoin="round"/><path d="M12 25V14.2a4 4 0 0 1 8 0V25" fill="none" stroke="url(#pbG)" stroke-width="2" stroke-linejoin="round"/><path d="M16 15.2l.9 2.6 2.6.9-2.6.9-.9 2.6-.9-2.6-2.6-.9 2.6-.9z" fill="#fff"/></svg><span>NER PORTAL<span class="portal-site"> SITE</span></span></a>
+</nav>
+</header>
+<!-- v3: 手順の表示(1 取り出す → 2 依頼する → 3 受け取る)。下の setStep() で切り替える -->
+<ol class="steps" id="steps" aria-label="手順">
+<li class="step now" data-step="1" aria-current="step"><i class="bar"></i><span><b>1</b><span class="s-short">取り出す</span><span class="s-long">セーブを取り出す</span></span></li>
+<li class="step" data-step="2"><i class="bar"></i><span><b>2</b><span class="s-short">依頼する</span><span class="s-long">修復を依頼する</span></span></li>
+<li class="step" data-step="3"><i class="bar"></i><span><b>3</b><span class="s-short">受け取る</span><span class="s-long">結果を確認して受け取る</span></span></li>
+</ol>
 
-</div>
-<main class="wrap">
+<main class="wrap" id="main">
+<div class="layout">
+<div class="col-main">
 <section class="hero">
-<p class="eyebrow">POKÉMON SAVE RECOVERY</p>
 <h1 class="hero-logo"><picture><source srcset="img/logo.webp?v=1" type="image/webp"><img src="img/logo.png?v=1" width="1300" height="437" alt="セーブデータ修復" decoding="async"></picture></h1>
-<p class="lead">「レポートがこわれています」と出て遊べなくなった、<b>ポケモン X・Y / オメガルビー・アルファサファイア</b>のセーブデータの修復を受け付けています。セーブデータを送っていただければ、修復できたものをこのページからダウンロードできます。</p>
-<details class="rq-help">
-<summary>どうやって 3DS からセーブデータを持ってきたらいいの？</summary>
+<div class="hero-text">
+<p class="hero-title">「レポートがこわれています」<br class="m-br">のセーブ、修復します</p>
+<p class="lead">「レポートがこわれています」と出て遊べなくなった、<b>ポケモン X・Y / オメガルビー・アルファサファイア</b>のセーブデータの修復を受け付けています。セーブを送ると管理者が手作業で修復し、このページからダウンロードできます。</p>
+<p class="games"><span>X・Y</span><span>オメガルビー・アルファサファイア</span><span class="plain">数日かかることがあります</span></p>
+</div>
+</section>
+
+<div class="seg rq-tabs" role="tablist" aria-label="すること">
+<button type="button" class="rq-tab seg-btn active" data-tab="send" role="tab">修復を依頼する</button>
+<button type="button" class="rq-tab seg-btn" data-tab="check" role="tab">結果を確認する</button>
+</div>
+
+<details class="rq-help card">
+<summary><span class="q" aria-hidden="true">?</span>どうやってセーブデータを持ってきたらいいの？</summary>
 <div class="rq-help-body">
-<p style="margin:0">送っていただくのは、ゲームのセーブデータのファイル <code>main</code> です。</p>
+<div class="seg help-tabs" role="tablist" aria-label="遊んでいる機械">
+<button type="button" class="seg-btn active" role="tab" id="helpTab-3ds" aria-controls="help-3ds" aria-selected="true" data-help="3ds">3DS</button>
+<button type="button" class="seg-btn" role="tab" id="helpTab-emu" aria-controls="help-emu" aria-selected="false" data-help="emu" tabindex="-1">エミュレータ</button>
+</div>
+<div class="help-panel" role="tabpanel" id="help-3ds" aria-labelledby="helpTab-3ds">
+<p class="help-lead">送っていただくのは、ゲームのセーブデータのファイル <code>main</code> です。</p>
 <h4>① まず CFW(カスタムファームウェア)を入れる</h4>
-<p style="margin:2px 0 0">3DS 本体の機能だけでは、セーブデータをファイルとして取り出すことはできません。取り出すには、3DS に <b>CFW(カスタムファームウェア)</b> を入れて、セーブデータを取り出すアプリ(Checkpoint)を使えるようにする必要があります。</p>
-<p style="margin:6px 0 0">CFW の入れ方は、こちらの動画をご参考ください。<b>パソコン・iPhone・Android のどれか 1 台</b>があればできます。</p>
+<p>3DS 本体の機能だけでは、セーブデータをファイルとして取り出すことはできません。取り出すには、3DS に <b>CFW(カスタムファームウェア)</b> を入れて、セーブデータを取り出すアプリ(Checkpoint)を使えるようにする必要があります。</p>
+<p>CFW の入れ方は、こちらの動画をご参考ください。<b>パソコン・iPhone・Android のどれか 1 台</b>があればできます。</p>
 <a class="rq-video" href="https://youtu.be/Sb5POknNqTw" target="_blank" rel="noopener noreferrer">
 <span class="rq-video-thumb"><img src="https://i.ytimg.com/vi/Sb5POknNqTw/mqdefault.jpg" width="320" height="180" alt="" loading="lazy" onerror="this.remove()"></span>
 <span><b>参考動画: CFW の導入方法</b><small>YouTube で見る ↗</small></span></a>
 <p class="rq-help-small">CFW の導入はご自身の責任で行ってください。</p>
 <h4>② Checkpoint でセーブデータを取り出す</h4>
-<ol>
-<li>3DS で <b>Checkpoint</b> を起動し、ポケモン X・Y / ORAS を選びます。</li>
-<li>「Backup」(バックアップ)を押して、セーブデータを保存します。</li>
-<li>3DS の電源を切って SD カードを抜き、パソコンやスマホで開きます。</li>
-<li><code>3ds/Checkpoint/saves/</code> の中にあるゲーム名のフォルダを開き、保存した日時のフォルダの中の <code>main</code> を、このページで選びます。</li>
+<ol class="how">
+<li><span>3DS で <b>Checkpoint</b> を起動し、ポケモン X・Y / ORAS を選びます。</span></li>
+<li><span>「Backup」(バックアップ)を押して、セーブデータを保存します。</span></li>
+<li><span>3DS の電源を切って SD カードを抜き、パソコンやスマホで開きます。</span></li>
+<li><span><code>3ds/Checkpoint/saves/</code> の中にあるゲーム名のフォルダを開き、保存した日時のフォルダの中の <code>main</code> を、このページで選びます。</span></li>
 </ol>
-<p style="margin:6px 0 0">JKSM を使っている場合も同じように「バックアップ」して、<code>JKSM/Saves/</code> の中の <code>main</code> を選んでください。SD カードを抜かずに、ftpd などで Wi-Fi 経由でスマホやパソコンに移すこともできます。</p>
-<h4>エミュレータで遊んでいる場合(CFW は不要)</h4>
-<ol>
-<li>ゲームの一覧でポケモンを右クリック(スマホ版は長押し)します。</li>
-<li>「セーブデータの場所を開く」を選びます。</li>
-<li>開いたフォルダの中の <code>main</code> を選びます。</li>
+<p>JKSM を使っている場合も同じように「バックアップ」して、<code>JKSM/Saves/</code> の中の <code>main</code> を選んでください。SD カードを抜かずに、ftpd などで Wi-Fi 経由でスマホやパソコンに移すこともできます。</p>
+</div>
+<div class="help-panel" role="tabpanel" id="help-emu" aria-labelledby="helpTab-emu" hidden>
+<p class="help-lead">エミュレータで遊んでいる場合、CFW は不要です。</p>
+<ol class="how">
+<li><span>ゲームの一覧でポケモンを右クリック(スマホ版は長押し)します。</span></li>
+<li><span>「セーブデータの場所を開く」を選びます。</span></li>
+<li><span>開いたフォルダの中の <code>main</code> を選びます。</span></li>
 </ol>
-<p class="rq-help-note">「レポートがこわれています」と出たあとに新しく始めてレポートを書くと、壊れたデータが消えてしまいます。取り出すまでは、ゲームでレポートを書かないでください。</p>
+</div>
+<p class="rq-help-note"><span aria-hidden="true">⚠️</span><span>「レポートがこわれています」と出たあとに新しく始めてレポートを書くと、壊れたデータが消えてしまいます。取り出すまでは、ゲームでレポートを書かないでください。</span></p>
 </div>
 </details>
-</section>
 
-<section class="card">
-<div id="rqHandoff" class="rq-handoff" hidden>NER Pokémon Recovery から、<b>壊れたセーブデータ</b>と<b>救出したデータ</b>の 2 つを受け取りました。ユーザー名とパスワードを決めて送ってください。</div>
+<section class="rq-panel active card form-card" data-panel="send" aria-label="修復を依頼する">
+<div id="rqHandoff" class="rq-handoff" hidden><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>NER Pokémon Recovery から、<b>壊れたセーブデータ</b>と<b>救出したデータ</b>の 2 つを受け取りました。ユーザー名とパスワードを決めて送ってください。</span></div>
 <div id="rqBanner" class="rq-banner" hidden>(準備中)受付の送り先がまだ設定されていません。</div>
-<div class="rq-tabs" role="tablist">
-<button type="button" class="rq-tab active" data-tab="send" role="tab">修復を依頼する</button>
-<button type="button" class="rq-tab" data-tab="check" role="tab">結果を確認する</button>
+<form id="sendForm" autocomplete="off">
+<h2 class="grp"><i>1</i>壊れたセーブデータ</h2>
+<div class="rq-field"><label class="rq-file" for="sFile" id="sFileBox"><input type="file" id="sFile"><span class="ic" aria-hidden="true"><svg class="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg><svg class="i-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="rq-file-text"><b class="rq-file-title" id="sFileTitle">main を選ぶ</b><span class="rq-file-name" id="sFileName">選ばれていません</span></span><span class="chg" aria-hidden="true">変更</span></label><small>Checkpoint や JKSM で取り出した <code>main</code> を選んでください(X・Y と ORAS のみ)。<span class="when-mouse">ここへドラッグ＆ドロップでも選べます。</span></small></div>
+<div class="rq-field" id="sFile2Field" hidden><label class="rq-file-label">救出したデータ</label><label class="rq-file" for="sFile2" id="sFile2Box"><input type="file" id="sFile2"><span class="ic" aria-hidden="true"><svg class="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg><svg class="i-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="rq-file-text"><b class="rq-file-title" id="sFile2Title">ファイルを選ぶ</b><span class="rq-file-name" id="sFile2Name">選ばれていません</span></span><span class="chg" aria-hidden="true">変更</span></label><small>NER Pokémon Recovery で作ったデータです。修復の手がかりにします。</small></div>
+
+<h2 class="grp next"><i>2</i>結果を受け取るときに使うもの</h2>
+<div class="rq-field"><label for="sName">ユーザー名 <em>必須</em></label><input type="text" id="sName" maxlength="30" required placeholder="例: ネル"><small>結果を確認するときに使います。ほかの人と同じ名前は使えません。</small></div>
+<div class="cols">
+<div class="rq-field"><label for="sPass">ダウンロードパスワード <em>必須</em></label><input type="password" id="sPass" minlength="4" maxlength="64" required autocomplete="new-password"><small>4 文字以上。修復したデータをダウンロードするときに使います。忘れないようにメモしてください。</small></div>
+<div class="rq-field"><label for="sPass2">パスワード(確認) <em>必須</em></label><input type="password" id="sPass2" minlength="4" maxlength="64" required autocomplete="new-password"><small id="passMatch" aria-live="polite"></small></div>
 </div>
 
-<div class="rq-panel active" data-panel="send">
-<form id="sendForm" autocomplete="off">
-<div class="rq-field"><label for="sName">ユーザー名</label><input type="text" id="sName" maxlength="30" required placeholder="例: ネル"><small>結果を確認するときに使います。ほかの人と同じ名前は使えません。</small></div>
-<div class="rq-field"><label for="sPass">ダウンロードパスワード</label><input type="password" id="sPass" minlength="4" maxlength="64" required autocomplete="new-password"><small>4 文字以上。修復したデータをダウンロードするときに使います。忘れないようにメモしてください。</small></div>
-<div class="rq-field"><label for="sPass2">パスワード(確認)</label><input type="password" id="sPass2" minlength="4" maxlength="64" required autocomplete="new-password"></div>
-<div class="rq-field"><label>セーブデータ(main)</label><label class="rq-file" for="sFile"><input type="file" id="sFile"><span class="small-button">ファイルを選ぶ</span><span class="rq-file-name" id="sFileName">選ばれていません</span></label><small>Checkpoint や JKSM で取り出した <code>main</code> を選んでください(X・Y と ORAS のみ)。</small></div>
-<div class="rq-field" id="sFile2Field" hidden><label>救出したデータ</label><label class="rq-file" for="sFile2"><input type="file" id="sFile2"><span class="small-button">ファイルを選ぶ</span><span class="rq-file-name" id="sFile2Name">選ばれていません</span></label><small>NER Pokémon Recovery で作ったデータです。修復の手がかりにします。</small></div>
-<div class="rq-field"><label for="sComment">備考・コメント(任意)</label><textarea id="sComment" maxlength="1000" placeholder="例: レポートを書いている途中で電源が切れました。手持ちのリザードンだけでも戻ってきてほしいです。"></textarea></div>
+<h2 class="grp next"><i>3</i>伝えたいこと</h2>
+<div class="rq-field"><label for="sComment">備考・コメント <em class="opt">任意</em></label><textarea id="sComment" maxlength="1000" placeholder="例: レポートを書いている途中で電源が切れました。手持ちのリザードンだけでも戻ってきてほしいです。"></textarea></div>
 <label class="rq-consent"><input type="checkbox" id="sAgree" required><span>送ったセーブデータを、修復と、修復ツールの改善のためのサンプルとして保存・利用することに同意します(第三者に渡すことはありません。<a href="privacy.html" target="_blank">プライバシーポリシー</a>)。</span></label>
+<div class="trust sendinfo send-m"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><p><b>送るもの・送り先</b>セーブデータ・ユーザー名・コメントを運営者の Google ドライブへ送ります。パスワードは元に戻せない形(ハッシュ値)で保存します。</p></div>
+<div class="dock" id="sendDock">
+<p class="dock-meta"><span id="dockFile"></span><b id="dockName"></b></p>
 <button type="submit" class="button" id="sButton">修復を依頼する</button>
+</div>
 </form>
 <div id="sMsg"></div>
+</section>
 </div>
 
-<div class="rq-panel" data-panel="check">
-<div class="rq-list"><h3>受付一覧<button type="button" id="listReload">更新</button></h3><ul id="reqList"><li class="rq-empty">読み込み中…</li></ul></div>
+<aside class="col-side">
+<section class="card side-card send-d">
+<div class="trust sendinfo trust-plain"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><p><b>送るもの・送り先</b>セーブ・ユーザー名・コメントを運営者の Google ドライブへ。パスワードは元に戻せない形(ハッシュ値)で保存します。</p></div>
+</section>
+
+<section class="rq-panel card side-card check-card" data-panel="check" aria-label="結果を確認する">
+<h2 class="check-title">結果を確認する</h2>
 <form id="checkForm" autocomplete="off">
 <div class="rq-field"><label for="cName">ユーザー名</label><input type="text" id="cName" maxlength="30" required></div>
 <div class="rq-field"><label for="cPass">ダウンロードパスワード</label><input type="password" id="cPass" maxlength="64" required autocomplete="current-password"></div>
-<button type="submit" class="button" id="cButton">結果を確認する</button>
+<button type="submit" class="button button-secondary" id="cButton">結果を確認する</button>
 </form>
 <div id="cMsg"></div>
-</div>
+<div class="rq-list"><h3>受付一覧<button type="button" id="listReload"><span aria-hidden="true">↻</span> 更新</button></h3><ul id="reqList"><li class="rq-empty">読み込み中…</li></ul><p class="rq-list-hint">受付番号で進み具合がわかります(ユーザー名は表示しません)。</p></div>
 </section>
 
-<section class="info">
-<h2>よくある質問</h2>
+<section class="card side-card info faq">
+<h2 class="sec-h">よくある質問</h2>
 <ul>
 <li><b>どのくらいで修復できますか？</b> 管理者が手作業で修復するため、数日かかることがあります。「結果を確認する」でときどき確かめてください。</li>
 <li><b>必ず直りますか？</b> 壊れ方によっては直せないこともあります。そのときは「修復できませんでした」と表示されます。</li>
 <li><b>送ったデータはどうなりますか？</b> 修復と、修復ツールの改善だけに使います。ほかの人に渡したり、ポケモンを取ったりすることはありません。</li>
 </ul>
 </section>
+</aside>
+</div>
 <footer><a href="privacy.html">プライバシーポリシー</a></footer>
 </main>
 <script>
@@ -171,11 +156,21 @@ async function loadList(){
     if(!r.ok)throw 0;
     listLoaded=true;
     // 一覧には受付番号を出す(ユーザー名は出さない)。古い受付処理(名前を返す版)のあいだは名前を出す
-    ul.innerHTML=r.items.length?r.items.map(it=>`<li><span class="rq-name">${it.id?'<span class="rq-no">No.</span>'+esc(it.id):esc(it.name||'')}<span class="rq-date">${it.created?esc(it.created.slice(4,6)+'/'+it.created.slice(6,8)):''}</span></span><span class="rq-badge ${esc(it.status)}">${STATUS_LABEL[it.status]||''}</span></li>`).join(''):'<li class="rq-empty">まだ依頼はありません</li>';
+    ul.innerHTML=r.items.length?r.items.map(it=>`<li${it.id?` data-id="${esc(it.id)}"`:''}${it.id&&it.id===myId?' class="me"':''}><span class="rq-name">${it.id?'<span class="rq-no">No.</span>'+esc(it.id):esc(it.name||'')}<span class="rq-date">${it.created?esc(it.created.slice(4,6)+'/'+it.created.slice(6,8)):''}</span></span><span class="rq-badge ${esc(it.status)}">${STATUS_LABEL[it.status]||''}</span></li>`).join(''):'<li class="rq-empty">まだ依頼はありません</li>';
   }catch(e){ul.innerHTML='<li class="rq-empty">一覧を読み込めませんでした</li>'}
 }
 $('listReload').addEventListener('click',loadList);
-function showTab(name){if(name==='check'&&!listLoaded)loadList();document.querySelectorAll('.rq-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===name));document.querySelectorAll('.rq-panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===name))}
+function showTab(name){if(name==='check'&&!listLoaded)loadList();document.querySelectorAll('.rq-tab').forEach(t=>{t.classList.toggle('active',t.dataset.tab===name);t.setAttribute('aria-selected',t.dataset.tab===name?'true':'false')});document.querySelectorAll('.rq-panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===name));currentTab=name;updateSteps()}
+// v3: 画面の見た目だけの状態(手順の表示・下に固定したボタン)。依頼や確認の処理には関係しない
+let currentTab='send',submitted=false,myId='';
+const isWide=()=>window.matchMedia('(min-width: 960px)').matches;
+function updateSteps(){
+  const now=(currentTab==='check'&&!isWide())||submitted?3:brokenFile?2:1;
+  document.querySelectorAll('#steps .step').forEach(li=>{const n=+li.dataset.step,isNow=n===now,isDone=n<now;li.classList.toggle('now',isNow);li.classList.toggle('done',isDone);li.querySelector('b').textContent=isDone?'✓':String(n);if(isNow)li.setAttribute('aria-current','step');else li.removeAttribute('aria-current')});
+  document.body.classList.toggle('tab-check',currentTab==='check');
+  document.body.classList.toggle('has-file',!!brokenFile&&!submitted);
+}
+function markMine(id){myId=id||'';document.querySelectorAll('#reqList li[data-id]').forEach(li=>li.classList.toggle('me',!!myId&&li.dataset.id===myId))}
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function showMsg(el,html,kind){el.innerHTML=html?`<div class="rq-msg ${kind||'info'}">${html}</div>`:''}
 async function api(body){
@@ -187,9 +182,29 @@ function toBase64(u8){let s='';for(let i=0;i<u8.length;i+=0x8000)s+=String.fromC
 function fromBase64(b64){const s=atob(b64),u=new Uint8Array(s.length);for(let i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u}
 // 選んだファイル。Recovery から渡されたときは、ここに直接入れる(input の files は使わない)
 let brokenFile=null,rescuedFile=null;
-const fileLabel=f=>f?`${f.name}(${f.size.toLocaleString()} バイト${SIZES[f.size]?'・'+SIZES[f.size]:''})`:'選ばれていません';
-function setBroken(f){brokenFile=f||null;$('sFileName').textContent=fileLabel(brokenFile)}
-function setRescued(f){rescuedFile=f||null;$('sFile2Name').textContent=fileLabel(rescuedFile)}
+// v3: 選んだファイルは緑の枠で、名前と大きさ・ゲームを表示する
+const fileDetail=f=>`${f.size.toLocaleString()} バイト${SIZES[f.size]?'・'+SIZES[f.size]:''}`;
+function showFile(box,title,detail,f,empty){$(box).classList.toggle('done',!!f);$(title).textContent=f?f.name:empty;$(detail).textContent=f?fileDetail(f):(box==='sFileBox'?'X・Y / ORAS のセーブデータ':'選ばれていません')}
+function setBroken(f){brokenFile=f||null;showFile('sFileBox','sFileTitle','sFileName',brokenFile,'main を選ぶ');updateDock();updateSteps()}
+function setRescued(f){rescuedFile=f||null;showFile('sFile2Box','sFile2Title','sFile2Name',rescuedFile,'ファイルを選ぶ')}
+function updateDock(){$('dockFile').textContent=brokenFile?brokenFile.name+(SIZES[brokenFile.size]?'・'+SIZES[brokenFile.size]:''):'';const n=$('sName').value.trim();$('dockName').textContent=n?'ユーザー名 '+n:''}
+$('sName').addEventListener('input',updateDock);
+// v3: パスワード(確認)が一致しているかをその場で表示する(送るときの確認は今までどおり)
+function updatePassMatch(){const a=$('sPass').value,b=$('sPass2').value,m=$('passMatch');if(!b){m.textContent='';m.className='';$('sPass2').classList.remove('ok','ng');return}const ok=a===b;m.textContent=ok?'✓ 一致しています':'パスワードと一致していません';m.className=ok?'good':'bad';$('sPass2').classList.toggle('ok',ok);$('sPass2').classList.toggle('ng',!ok)}
+$('sPass').addEventListener('input',updatePassMatch);$('sPass2').addEventListener('input',updatePassMatch);
+// v3: パソコンでは、壊れたセーブの枠へドラッグ＆ドロップでも選べる
+['dragenter','dragover'].forEach(t=>$('sFileBox').addEventListener(t,e=>{e.preventDefault();$('sFileBox').classList.add('drag')}));
+['dragleave','drop'].forEach(t=>$('sFileBox').addEventListener(t,e=>{e.preventDefault();$('sFileBox').classList.remove('drag')}));
+$('sFileBox').addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f)setBroken(f)});
+// v3: セーブデータの持ってき方(3DS / エミュレータ の 2 つ。NER Pokémon Recovery と同じ)
+(function(){
+  const tabs=[...document.querySelectorAll('.help-tabs [data-help]')];
+  const pick=t=>tabs.forEach(x=>{const on=x===t;x.classList.toggle('active',on);x.setAttribute('aria-selected',on?'true':'false');x.tabIndex=on?0:-1;document.getElementById('help-'+x.dataset.help).hidden=!on});
+  tabs.forEach((t,i)=>{t.addEventListener('click',()=>pick(t));t.addEventListener('keydown',e=>{const d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(!d)return;e.preventDefault();const n=tabs[(i+d+tabs.length)%tabs.length];pick(n);n.focus()})});
+})();
+// v3: パソコンでは「結果を確認する」が右側にいつも出ているので、受付一覧を最初から読み込む
+function wideInit(){if(isWide()&&!listLoaded)loadList();updateSteps()}
+window.matchMedia('(min-width: 960px)').addEventListener('change',wideInit);
 $('sFile').addEventListener('change',()=>setBroken($('sFile').files[0]));
 $('sFile2').addEventListener('change',()=>setRescued($('sFile2').files[0]));
 // NER Pokémon Recovery の「修復をリクエストする」から来たとき(?from=recovery)。
@@ -228,7 +243,8 @@ $('sendForm').addEventListener('submit',async e=>{
       <p>受付番号: <span class="rq-id">${esc(r.id)}</span></p>
       <p>修復が終わったら、このページの「結果を確認する」で、ユーザー名「<b>${esc(name)}</b>」とダウンロードパスワードを入れるとダウンロードできます。</p>
       <p style="font-size:13px;color:#667085">受付番号・ユーザー名・パスワードは、スクリーンショットなどで控えておいてください。「結果を確認する」の受付一覧では、受付番号で自分の依頼の進み具合がわかります。</p></div>`;
-    $('cName').value=name;listLoaded=false;
+    $('cName').value=name;listLoaded=false;submitted=true;markMine(r.id);updateSteps();if(isWide())loadList();
+    $('sMsg').scrollIntoView({block:'start',behavior:'smooth'});
     if(fromRecovery){handoffClear();history.replaceState(null,'',location.pathname)}
   }catch(err){showMsg($('sMsg'),'送信できませんでした。通信状態を確かめて、もう一度お試しください。'+(err&&err.message&&!REPAIR_URL?'('+esc(err.message)+')':''),'err')}
   finally{btn.disabled=false;btn.textContent='修復を依頼する'}
@@ -243,13 +259,15 @@ $('checkForm').addEventListener('submit',async e=>{
     if(!r.ok)return showMsg($('cMsg'),esc(r.error||'確認できませんでした。'),'err');
     const when=r.created?`${r.created.slice(0,4)}/${r.created.slice(4,6)}/${r.created.slice(6,8)} ${r.created.slice(9,11)}:${r.created.slice(11,13)}`:'';
     const note=r.note?`<p>📝 ${esc(r.note)}</p>`:'';
+    markMine(r.id);
+    const who=`<p class="rq-who"><span>ユーザー名 <b>${esc(name)}</b></span>${r.id?`<span>受付番号 <b class="rq-id-s">${esc(r.id)}</b></span>`:''}</p>`;
     if(r.status==='done'){
-      $('cMsg').innerHTML=`<div class="rq-result done"><h3>🎉 修復完了！</h3><p>修復したセーブデータをダウンロードできます。</p>${note}
-        <button type="button" class="button" id="dlButton">ダウンロードする</button>
+      $('cMsg').innerHTML=`<div class="rq-result done"><h3>🎉 修復完了！</h3><p>修復したセーブデータをダウンロードできます。</p>${who}${note}
+        <button type="button" class="button button-ok" id="dlButton"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span>ダウンロードする</span></button>
         <ol class="rq-steps"><li>ダウンロードしたファイルの名前を <code>main</code>(拡張子なし)にします。</li><li>Checkpoint で今のセーブをバックアップし、そのフォルダの <code>main</code> を置き換えて Restore します。</li><li>エミュレータの場合は、セーブデータの場所にある <code>main</code> と置き換えます。</li></ol></div>`;
       $('dlButton').addEventListener('click',()=>download(name,pass));
     }else if(r.status==='failed'){
-      $('cMsg').innerHTML=`<div class="rq-result failed"><h3>修復できませんでした</h3>${r.message?`<p>${esc(r.message)}</p>`:''}${note}<p>ご協力ありがとうございました。送っていただいたデータは、今後の修復ツールの改善に役立てます。</p></div>`;
+      $('cMsg').innerHTML=`<div class="rq-result failed"><h3>修復できませんでした</h3>${who}${r.message?`<p>${esc(r.message)}</p>`:''}${note}<p>ご協力ありがとうございました。送っていただいたデータは、今後の修復ツールの改善に役立てます。</p></div>`;
     }else{
       $('cMsg').innerHTML=`<div class="rq-result"><h3>修復中です</h3><p>受付番号: <span class="rq-id">${esc(r.id||'')}</span>${when?`(${esc(when)} 受付)`:''}</p>${note}<p>修復が終わるまで、もうしばらくお待ちください。</p></div>`;
     }
@@ -257,8 +275,9 @@ $('checkForm').addEventListener('submit',async e=>{
   finally{btn.disabled=false;btn.textContent='結果を確認する'}
 });
 
+setBroken(brokenFile);wideInit();
 async function download(name,pass){
-  const btn=$('dlButton');btn.disabled=true;btn.textContent='ダウンロード中…';
+  const btn=$('dlButton'),lbl=btn.querySelector('span')||btn;btn.disabled=true;lbl.textContent='ダウンロード中…';
   try{
     const r=await api({action:'download',name,password:pass});
     if(!r.ok||!r.data)throw new Error(r.error||'');
@@ -266,7 +285,7 @@ async function download(name,pass){
     const a=document.createElement('a');a.href=url;a.download=r.fileName||'main';document.body.appendChild(a);a.click();a.remove();
     setTimeout(()=>URL.revokeObjectURL(url),10000);
   }catch(err){const p=document.createElement('p');p.style.color='#b42318';p.textContent='ダウンロードできませんでした。もう一度お試しください。';btn.after(p)}
-  finally{btn.disabled=false;btn.textContent='ダウンロードする'}
+  finally{btn.disabled=false;lbl.textContent='ダウンロードする'}
 }
 </script>
 </body>
